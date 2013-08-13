@@ -1,0 +1,5 @@
+*/
+!.vim/*
+.vim/backup/*
+.vim/swap/*
+*.log

@@ -1,0 +1,10 @@
+[user]
+	name = Jason B. Cox
+	email = contact@jasonbcox.com
+
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+	interactive = auto
+
