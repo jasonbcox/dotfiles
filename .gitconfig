@@ -8,3 +8,5 @@
 	branch = auto
 	interactive = auto
 
+[push]
+	default = simple
