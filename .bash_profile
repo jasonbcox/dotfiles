@@ -8,6 +8,8 @@ export LSCOLORS=ExFxCxDxBxegedabagacad
 
 export PS1="\[$(tput bold)\]\[$(tput setaf 3)\]\u@\h\[$(tput setaf 1)\]\w\[$(tput setaf 3)\]\\$ \[$(tput sgr0)\]"
 
+alias ls='ls --color'
+
 function isMacOSX() {
 	if [ $(uname -s) = "Darwin" ]; then
 		echo $TRUE; return
