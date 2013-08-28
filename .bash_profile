@@ -8,7 +8,13 @@ export LSCOLORS=ExFxCxDxBxegedabagacad
 
 export PS1="\[$(tput bold)\]\[$(tput setaf 3)\]\u@\h\[$(tput setaf 1)\]\w\[$(tput setaf 3)\]\\$ \[$(tput sgr0)\]"
 
-alias ls='ls --color'
+function isLinux() {
+	if [ $(uname -s) = "Linux" ]; then
+		echo $TRUE; return
+	else
+		echo $FALSE; return
+	fi
+}
 
 function isMacOSX() {
 	if [ $(uname -s) = "Darwin" ]; then
@@ -20,8 +26,13 @@ function isMacOSX() {
 
 function set_title { echo -ne "\033]0;"$*"\007"; }
 
+if [ $(isLinux) = $TRUE ]; then
+	alias ls='ls --color=auto'
+fi
+
 if [ $(isMacOSX) = $TRUE ]; then
 	source /usr/local/bin/virtualenvwrapper.sh
+	alias ls='ls -G'
 fi
 
 if [ -e /usr/share/terminfo/x/xterm-256color ]; then
@@ -29,4 +40,6 @@ if [ -e /usr/share/terminfo/x/xterm-256color ]; then
 else
         export TERM='xterm-color'
 fi
+
+[ -f ~/.profile_databases ] && source ~/.profile_databases
 
