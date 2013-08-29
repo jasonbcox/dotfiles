@@ -1,6 +1,5 @@
-[user]
-	name = Jason B. Cox
-	email = contact@jasonbcox.com
+[include]
+	path = ./.gituser
 
 [color]
 	diff = auto
