@@ -41,5 +41,5 @@ else
         export TERM='xterm-color'
 fi
 
-[ -f ~/.profile_databases ] && source ~/.profile_databases
+[ -f ~/.profile_aliases ] && source ~/.profile_aliases
 
