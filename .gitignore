@@ -1,6 +1,11 @@
 */
 .*/
+!.vim/
 !.vim/*
+!.vim/autoload/
+!.vim/autoload/*
+!.vim/bundle/
+!.vim/bundle/*
 .vim/backup/*
 .vim/swap/*
 *.log
