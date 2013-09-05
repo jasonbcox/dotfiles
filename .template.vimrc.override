@@ -1,0 +1,6 @@
+
+autocmd FileType javascript setlocal expandtab
+autocmd FileType html setlocal expandtab
+autocmd FileType css setlocal expandtab
+autocmd FileType perl setlocal expandtab
+
