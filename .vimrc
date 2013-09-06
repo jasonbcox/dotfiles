@@ -30,7 +30,10 @@ autocmd FileType python setlocal expandtab
 
 " Make whitespace visible
 set listchars=tab:\»\ ,trail:·,extends:+,precedes:+
+
+highlight Title ctermfg=203 guifg=#ff5f5f		" Red/IndianRed1
 highlight Comment ctermfg=34 guifg=#00af00		" DarkGreen/Green3
+
 " Constants
 highlight Constant ctermfg=33 guifg=#0087ff		" DodgerBlue1
 highlight String ctermfg=208 guifg=#ff8700		" DarkOrange

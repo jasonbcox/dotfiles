@@ -35,11 +35,8 @@ if [ $(isMacOSX) = $TRUE ]; then
 	alias ls='ls -G'
 fi
 
-if [ -e /usr/share/terminfo/x/xterm-256color ]; then
-        export TERM='xterm-256color'
-else
-        export TERM='xterm-color'
-fi
+export TERM='xterm-256color'
+[ -n "$TMUX" ] && export TERM=screen-256color
 
 [ -f ~/.profile_aliases ] && source ~/.profile_aliases
 
