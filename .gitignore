@@ -9,3 +9,5 @@
 .vim/backup/*
 .vim/swap/*
 *.log
+.profile_aliases
+.gituser
