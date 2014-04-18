@@ -6,6 +6,12 @@ export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
 #export PS1="\u@\h\w$ "
 
+export GTK_IM_MODULE=ibus
+export XMODIFIERS=@im=ibus
+export QT_IM_MODULE=ibus
+export XIM_PROGRAM=/usr/bin/ibus-daemon
+ibus-daemon -x -d
+
 export PS1="\[$(tput bold)\]\[$(tput setaf 3)\]\u@\h\[$(tput setaf 1)\]\w\[$(tput setaf 3)\]\\$ \[$(tput sgr0)\]"
 
 function isLinux() {
