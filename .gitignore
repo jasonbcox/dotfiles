@@ -11,3 +11,4 @@
 *.log
 .profile_aliases
 .gituser
+.gitligconfig

@@ -10,3 +10,5 @@
 
 3. 'ln -s .template.vimrc.override .vimrc.override' Create this symlink if you want to enforce spaces instead of tabs for various languages.
 
+4. Create .gitligconfig and put any patterns that you want ignored from 'git lig'.  This file may be empty.
+
