@@ -4,9 +4,25 @@ readonly FALSE="False"
 
 export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
-#export PS1="\u@\h\w$ "
 
-export PS1="\[$(tput bold)\]\[$(tput setaf 3)\]\u@\h\[$(tput setaf 1)\]\w\[$(tput setaf 3)\]\\$ \[$(tput sgr0)\]"
+function parse_git_branch() {
+	git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+
+t_black=$(tput setaf 0)
+t_red=$(tput setaf 1)
+t_green=$(tput setaf 2)
+t_yellow=$(tput setaf 3)
+t_blue=$(tput setaf 4)
+t_purple=$(tput setaf 5)
+t_cyan=$(tput setaf 6)
+t_white=$(tput setaf 7)
+t_bold=$(tput bold)
+t_reset=$(tput sgr0)
+t_underline=$(tput sgr 0 1)
+
+
+export PS1="\[$t_bold\]\[$t_yellow\]\u@\h\[$t_red\]\w\\[$t_green\]\$(parse_git_branch)\[$t_red\]$ \[$t_reset\]"
 
 function isLinux() {
 	if [ $(uname -s) = "Linux" ]; then
