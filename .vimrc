@@ -7,6 +7,7 @@ set directory=~/.vim/swap
 
 set nocompatible				" Disable vi compatibility (use vim defaults instead)
 set ruler
+set number						" Enable line numbers
 set laststatus=2
 highlight StatusLine ctermfg=52 guifg=DarkRed
 set history=100
