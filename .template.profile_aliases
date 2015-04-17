@@ -1,9 +1,7 @@
 
-export GTK_IM_MODULE=ibus
-export XMODIFIERS=@im=ibus
+export GTK_IM_MODULE=xim #ibus
+export XMODIFIERS=@im=xim #ibus
 export QT_IM_MODULE=ibus
 export XIM_PROGRAM=/usr/bin/ibus-daemon
 ibus-daemon -x -d
-
-export PATH=~/Qt5.2.1/5.2.1/gcc_64/bin:$PATH
 

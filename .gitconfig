@@ -1,6 +1,9 @@
 [include]
 	path = ./.gituser
 
+[core]
+	editor = vim
+
 [color]
 	diff = auto
 	status = auto
