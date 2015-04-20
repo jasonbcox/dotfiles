@@ -6,7 +6,7 @@ export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
 
 function parse_git_branch() {
-	git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
 
 t_black=$(tput setaf 0)
@@ -25,30 +25,30 @@ t_underline=$(tput sgr 0 1)
 export PS1="\[$t_bold\]\[$t_yellow\]\u@\h\[$t_red\]\w\\[$t_green\]\$(parse_git_branch)\[$t_red\]$ \[$t_reset\]"
 
 function isLinux() {
-	if [ $(uname -s) = "Linux" ]; then
-		echo $TRUE; return
-	else
-		echo $FALSE; return
-	fi
+  if [ $(uname -s) = "Linux" ]; then
+    echo $TRUE; return
+  else
+    echo $FALSE; return
+  fi
 }
 
 function isMacOSX() {
-	if [ $(uname -s) = "Darwin" ]; then
-		echo $TRUE; return
-	else
-		echo $FALSE; return
-	fi
+  if [ $(uname -s) = "Darwin" ]; then
+    echo $TRUE; return
+  else
+    echo $FALSE; return
+  fi
 }
 
 function set_title { echo -ne "\033]0;"$*"\007"; }
 
 if [ $(isLinux) = $TRUE ]; then
-	alias ls='ls --color=auto'
+  alias ls='ls --color=auto'
 fi
 
 if [ $(isMacOSX) = $TRUE ]; then
-	source /usr/local/bin/virtualenvwrapper.sh
-	alias ls='ls -G'
+  source /usr/local/bin/virtualenvwrapper.sh
+  alias ls='ls -G'
 fi
 
 export TERM='xterm-256color'
