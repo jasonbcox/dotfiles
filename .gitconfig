@@ -17,12 +17,12 @@
   s = status
   lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
   lig = "!f(){ git lg --after=1.week $@ | grep -vf ~/.gitligconfig ;};f"
-  lgd = "!f(){ git lg --diff-filter=D --summary $@ ;};f"
-  tf = ls-tree -r master --name-only
+  lgd = "!f(){ git lg --diff-filter=D --summary $@ ;};f" # List deleted files
+  tf = ls-tree -r master --name-only # List tracked files
 
   pl = pull --rebase
-  bl = branch -al
+  bl = branch -al # List all branches (remotes included)
   ch = checkout
 
   sl = stash list
-  ss  = "!sh -c 'git stash show -p stash@{$1}' -"
+  ss  = "!sh -c 'git stash show -p stash@{$1}' -" # Show the diff for the given stash number

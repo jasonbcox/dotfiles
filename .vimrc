@@ -67,7 +67,7 @@ highlight NonText ctermfg=248 guifg=#a8a8a8
 set list
 syntax enable
 
-if filereadable(glob("~/.vimrc.override"))
-  source ~/.vimrc.override
+if filereadable(glob("~/.vimrc.extras"))
+  source ~/.vimrc.extras
 endif
 

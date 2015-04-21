@@ -1,14 +1,15 @@
+#!/bin/sh - Just for comment colors in vim
 */
 .*/
-!.vim/
-!.vim/*
-!.vim/autoload/
-!.vim/autoload/*
-!.vim/bundle/
-!.vim/bundle/*
-.vim/backup/*
-.vim/swap/*
+
+!/.vim/
+!/.vim/**
+
+!/.templates/
+!/.templates/**
+
 *.log
-.profile_aliases
-.gituser
-.gitligconfig
+
+/.profile_aliases
+/.gituser
+/.gitligconfig
