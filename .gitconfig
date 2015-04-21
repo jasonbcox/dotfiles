@@ -1,26 +1,28 @@
 [include]
-	path = ./.gituser
+  path = ./.gituser
 
 [core]
-	editor = vim
+  editor = vim
 
 [color]
-	diff = auto
-	status = auto
-	branch = auto
-	interactive = auto
+  diff = auto
+  status = auto
+  branch = auto
+  interactive = auto
 
 [push]
-	default = simple
+  default = simple
 
 [alias]
-	s = status
-	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-	lig = "!f(){ git lg --after=1.week $@ | grep -vf ~/.gitligconfig ;};f"
+  s = status
+  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+  lig = "!f(){ git lg --after=1.week $@ | grep -vf ~/.gitligconfig ;};f"
+  lgd = "!f(){ git lg --diff-filter=D --summary $@ ;};f"
+  tf = ls-tree -r master --name-only
 
-	pl = pull --rebase
-	bl = branch -al
-	ch = checkout
+  pl = pull --rebase
+  bl = branch -al
+  ch = checkout
 
-	sl = stash list
-	ss  = "!sh -c 'git stash show -p stash@{$1}' -"
+  sl = stash list
+  ss  = "!sh -c 'git stash show -p stash@{$1}' -"
