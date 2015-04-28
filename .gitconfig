@@ -16,9 +16,17 @@
 [alias]
   s = status
   lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-  lig = "!f(){ git lg --after=1.week $@ | grep -vf ~/.gitligconfig ;};f"
-  lgd = "!f(){ git lg --diff-filter=D --summary $@ ;};f" # List deleted files
-  tf = ls-tree -r master --name-only # List tracked files
+
+  lg-ignore = "!f(){ \
+    if [ -f ~/.gitignore-patterns ]; then \
+      git lg -n 100 $@ | grep -vf ~/.gitignore-patterns; \
+    else \
+      git lg -n 100 $@; \
+    fi \
+  };f"
+  deleted-files = "!f(){ git lg --diff-filter=D --summary $@ ;};f"
+  tracked-files = ls-tree -r master --name-only
+  committers = "!f(){ git shortlog -sne HEAD | grep -vf ~/.gitignore-users ;};f"
 
   pl = pull --rebase
   bl = branch -al # List all branches (remotes included)
