@@ -1,0 +1,20 @@
+#!/bin/bash
+
+z40=0000000000000000000000000000000000000000
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+if [ $(git status) -ne 0 ]; then
+  echo "You have unstaged changes.  Please stash them or commit them before pushing."
+  exit 1
+fi
+
+if [[ $current_branch = 'master' ]]; then
+    echo "$PWD"
+    "$PWD/pre-push-tests.sh"
+    if [ $? -ne 0 ]; then
+        echo "Tests Failed"
+        exit 1
+    fi
+fi
+exit 0
+
