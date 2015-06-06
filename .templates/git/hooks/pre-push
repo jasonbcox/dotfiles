@@ -3,7 +3,7 @@
 z40=0000000000000000000000000000000000000000
 current_branch=$(git rev-parse --abbrev-ref HEAD)
 
-if [ $(git status) -ne 0 ]; then
+if [ "$(git status --short --untracked-files=no)" != "" ]; then
   echo "You have unstaged changes.  Please stash them or commit them before pushing."
   exit 1
 fi
@@ -11,8 +11,9 @@ fi
 if [[ $current_branch = 'master' ]]; then
     echo "$PWD"
     "$PWD/pre-push-tests.sh"
-    if [ $? -ne 0 ]; then
-        echo "Tests Failed"
+    TESTS_EXIT_CODE=$?
+    if [ $TESTS_EXIT_CODE -ne 0 ]; then
+        echo "Tests Failed with Error: $TESTS_EXIT_CODE"
         exit 1
     fi
 fi
