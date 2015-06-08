@@ -4,9 +4,6 @@
 [core]
   editor = vim
 
-[init]
-  templatedir = ~/.templates/git
-
 [color]
   diff = auto
   status = auto
