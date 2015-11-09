@@ -42,6 +42,10 @@ fi
 # Linux-specific Configs
 if [ $(uname -s) = $UNAME_LINUX ]; then
   alias ls='ls --color=auto'
+
+  # Prevent suspending the terminal
+  stty ixany
+  stty ixoff -ixon
 fi
 
 # Mac-specific Configs
