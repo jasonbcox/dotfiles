@@ -8,6 +8,9 @@
 !/.templates/
 !/.templates/**
 
+!/.scripts/
+!/.scripts/**
+
 *.log
 
 /.profile_aliases
