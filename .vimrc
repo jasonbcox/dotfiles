@@ -11,6 +11,7 @@ set number                                        " Enable line numbers
 set laststatus=2
 highlight StatusLine ctermfg=52 guifg=DarkRed
 set history=100
+set tw=0                                          " Don't wrap text
 
 set autoindent                                    " Enable autoindenting
 set expandtab tabstop=2 shiftwidth=2              " Set indentation width and use spaces
@@ -24,6 +25,8 @@ set wildmode=longest,full                         " TAB-autocomplete shows the f
 
 " Pathogen - vim plugin system (see github.com/tpope/vim-pathogen
 call pathogen#infect()
+
+let g:vim_markdown_folding_disabled=1             " Disable code collapsing
 
 filetype plugin on
 autocmd FileType python setlocal expandtab
