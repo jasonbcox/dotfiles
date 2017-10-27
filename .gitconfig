@@ -28,9 +28,9 @@
     fi \
   };f"
 
-  deleted-files = "!f(){ git lg --diff-filter=D --summary $@ ;};f"
+  deleted-files = "!f(){ git lg --diff-filter=D --summary \"$@\" ;};f"
   tracked-files = ls-tree -r master --name-only
-  committers = "!f(){ git shortlog -sne HEAD | grep -vf ~/.gitignore-users ;};f"
+  committers = "!f(){ git shortlog -sne \"$@\" | grep -vf ~/.gitignore-users ;};f"
 
   pl = pull --rebase
   bl = branch -al # List all branches (remotes included)

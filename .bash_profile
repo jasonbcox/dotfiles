@@ -66,6 +66,9 @@ if ! shopt -oq posix; then
   fi
 fi
 
+# Disable killing the shell with CTRL-D
+IGNOREEOF=5
+
 # Source optional configs, if they exist
 [ -f ~/.profile_aliases ] && source ~/.profile_aliases
 
