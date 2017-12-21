@@ -72,6 +72,9 @@ highlight Type ctermfg=125 guifg=#af005f       " DeepPink4
 highlight Special ctermfg=160 guifg=#d70000    " Red/Red3
 " SpecialChar, Tag, Delimiter, SpecialComment, Debug
 
+" Search
+highlight Search ctermfg=160 guifg=#d70000 ctermbg=11 guibg=#ffff00     " Red/Red3 + Yellow/Yellow1
+
 highlight NonText ctermfg=248 guifg=#a8a8a8
 
 set list

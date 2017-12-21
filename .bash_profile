@@ -5,6 +5,9 @@ readonly UNAME_MAC="Darwin"
 export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
 
+export VISUAL=vim
+export EDITOR="$VISUAL"
+
 function parse_git_branch() {
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
@@ -41,6 +44,9 @@ fi
 
 # Linux-specific Configs
 if [ $(uname -s) = $UNAME_LINUX ]; then
+  # Don't put duplicate lines or lines starting with space in the history
+  HISTCONTROL=ignoreboth
+
   alias ls='ls --color=auto'
 
   # Prevent suspending the terminal
@@ -52,6 +58,10 @@ fi
 if [ $(uname -s) = $UNAME_MAC ]; then
   alias ls='ls -G'
 fi
+
+# Simple symmetric encryption aliases
+alias encrypt='gpg -ac'
+alias decrypt='gpg --decrypt'
 
 # Set TERM
 export TERM='xterm-256color'
