@@ -33,6 +33,7 @@
   committers = "!f(){ git shortlog -sne \"$@\" | grep -vf ~/.gitignore-users ;};f"
 
   pl = pull --rebase
+  plom = pull --rebase origin master:master
   bl = branch -al # List all branches (remotes included)
   ch = checkout
 
