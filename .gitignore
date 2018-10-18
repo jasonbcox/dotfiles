@@ -4,6 +4,8 @@
 
 !/.vim/
 !/.vim/**
+/.vim/.netrwhist
+/.viminfo
 
 !/.templates/
 !/.templates/**
@@ -17,3 +19,9 @@
 /.gituser
 /.gitignore-patterns
 /.gitignore-users
+
+/.arcrc
+/.babel.json
+/.bash_history
+/.sudo_as_admin_successful
+/.lesshst
