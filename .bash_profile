@@ -1,6 +1,7 @@
 
 readonly UNAME_LINUX="Linux"
 readonly UNAME_MAC="Darwin"
+readonly UNAME_WSL="Microsoft"
 
 export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
@@ -42,7 +43,7 @@ if [[ $- == *i* ]]; then
   export PS1="\[$t_bold\]\[$t_yellow\]\u@\h\[$t_red\]\w\\[$t_green\]\$(parse_git_branch)\[$t_red\]$ \[$t_reset\]"
 fi
 
-# Linux-specific Configs
+# Linux-specific configs
 if [ $(uname -s) = $UNAME_LINUX ]; then
   # Don't put duplicate lines or lines starting with space in the history
   HISTCONTROL=ignoreboth
@@ -54,9 +55,16 @@ if [ $(uname -s) = $UNAME_LINUX ]; then
   stty ixoff -ixon
 fi
 
-# Mac-specific Configs
+# Mac-specific configs
 if [ $(uname -s) = $UNAME_MAC ]; then
   alias ls='ls -G'
+fi
+
+# Windows Subsystem for Linux specific configs
+if uname -a | grep $UNAME_WSL; then
+  # Export DISPLAY because WSL does not do this by default
+  # Need to have an XWindow system installed such as XMing
+  export DISPLAY=:0
 fi
 
 # Simple symmetric encryption aliases
