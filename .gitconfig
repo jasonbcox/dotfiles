@@ -22,7 +22,7 @@
   renames = copies
 
 [pretty]
-  compact = format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset'
+  compact = format:%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd ~ %cr) %C(bold blue)<%an>%Creset
 
 [format]
   pretty = compact
