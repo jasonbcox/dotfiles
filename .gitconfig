@@ -25,26 +25,26 @@
   compact = format:%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd ~ %cr) %C(bold blue)<%an>%Creset
 
 [format]
-  pretty = compact
+  pretty = fuller
 
 [alias]
   s = status
 
   # Graph-print current branch
   # Reminder: shell commands in .gitconfig run at the repo's top level, so do not use the shell syntax when it can be helped.
-  lg        = log --graph
+  lg        = log --pretty=compact --graph
 
   # Graph-print all branches, including remotes
-  lg-all    = log --graph --decorate --all
+  lg-all    = log --pretty=compact --graph --decorate --all
 
   # Show all merge commits for branches or files
-  lg-m      = log --first-parent -m
+  lg-m      = log --pretty=compact --first-parent -m
 
   # Graph-print all local branches
-  lg-b      = log --graph --decorate --branches
+  lg-b      = log --pretty=compact --graph --decorate --branches
 
   # Show log of a deleted file
-  lg-d      = log --graph --
+  lg-d      = log --pretty=compact --graph --
 
   lg-ignore = "!f(){ \
     if [ -f ~/.gitignore-patterns ]; then \
