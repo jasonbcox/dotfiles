@@ -23,6 +23,13 @@ set incsearch                                     " Highlight as you type search
 set wildmenu
 set wildmode=longest,full                         " TAB-autocomplete shows the full list of options
 
+" Fix for CVE-2019-12735
+" See https://github.com/numirias/security/blob/master/doc/2019-06-04_ace-vim-neovim.md
+" Seeing as modelines just litter files with editor-specific settings, they
+" are mostly useless anyway.
+set modelines=0
+set nomodeline
+
 " Pathogen - vim plugin system (see github.com/tpope/vim-pathogen
 call pathogen#infect()
 
