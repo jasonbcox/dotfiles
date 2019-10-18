@@ -12,6 +12,7 @@ set laststatus=2
 highlight StatusLine ctermfg=52 guifg=DarkRed
 set history=100
 set tw=0                                          " Don't wrap text
+set mouse=""                                      " Disable mouse over SSH
 
 set autoindent                                    " Enable autoindenting
 set expandtab tabstop=2 shiftwidth=2              " Set indentation width and use spaces
