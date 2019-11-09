@@ -3,9 +3,6 @@ readonly UNAME_LINUX="Linux"
 readonly UNAME_MAC="Darwin"
 readonly UNAME_WSL="Microsoft"
 
-export CLICOLOR=1
-export LSCOLORS=ExFxCxDxBxegedabagacad
-
 export VISUAL=vim
 export EDITOR="$VISUAL"
 
@@ -48,7 +45,89 @@ if [ $(uname -s) = $UNAME_LINUX ]; then
   # Don't put duplicate lines or lines starting with space in the history
   HISTCONTROL=ignoreboth
 
+  # LS_COLORS format is: `NAME=<ATTRIBUTE;...>:` where `...` is any combination of attributes
+  # delimited by semicolons and groups of NAME=<ATTRIBUTES> is delimited by colons. Example: `di=1;4;31;42:so=32`
+  # Reference: https://unix.stackexchange.com/a/94505
+  # Color Reference: https://i.stack.imgur.com/S4aFQ.png
+
+  # Styles:
+  # 0  #  = default colour
+  # 1  #  = bold
+  # 4  #  = underlined
+  # 5  #  = flashing text (disabled on some terminals)
+  # 7  #  = reverse field (exchange foreground and background color)
+  # 8  #  = concealed (invisible)
+
+  # 16-bit Colors:
+  # 30  # = black
+  # 31  # = red
+  # 32  # = green
+  # 33  # = yellow
+  # 34  # = blue
+  # 35  # = purple
+  # 36  # = cyan
+  # 37  # = grey
+  # 90  # = dark grey
+  # 91  # = light red
+  # 92  # = light green
+  # 93  # = yellow
+  # 94  # = light blue
+  # 95  # = light purple
+  # 96  # = turquoise
+  # 97  # = white
+
+  # 16-bit backgrounds:
+  # 40  # = black background
+  # 41  # = red background
+  # 42  # = green background
+  # 43  # = yellow background
+  # 44  # = blue background
+  # 45  # = purple background
+  # 46  # = cyan background
+  # 47  # = grey background
+  # 100 = dark grey background
+  # 101 = light red background
+  # 102 = light green background
+  # 103 = yellow background
+  # 104 = light blue background
+  # 105 = light purple background
+  # 106 = turquoise background
+  # 107 = white background
+
+  # 256-bit colors/backgrounds: see color reference: https://i.stack.imgur.com/S4aFQ.png
+  # 38;5; starts an xterm 256-color foreground color code
+  # 48;5; starts an xterm 256-color background color code
+
+  # Names:
+  # bd = (BLOCK, BLK)  #  Block device (buffered) special file
+  # cd = (CHAR, CHR)  #   # Character device (unbuffered) special file
+  # di = (DIR)  # Directory
+  # do = (DOOR) [Door][1]
+  # ex = (EXEC) Executable file (ie. has 'x' set in permissions)
+  # fi = (FILE) Normal file
+  # ln = (SYMLINK, LINK, LNK)  #  Symbolic link. If you set this to ‘target’ instead of a numerical value, the color is as for the file pointed to.
+  # mi = (MISSING)  # Non-existent file pointed to by a symbolic link (visible when you type ls -l)
+  # no = (NORMAL, NORM) Normal (non-filename) text. Global default, although everything should be something
+  # or = (ORPHAN)  #  Symbolic link pointing to an orphaned non-existent file
+  # ow = (OTHER_WRITABLE)  #  Directory that is other-writable (o+w) and not sticky
+  # pi = (FIFO, PIPE)  #  Named pipe (fifo file)
+  # sg = (SETGID)  #  File that is setgid (g+s)
+  # so = (SOCK) Socket file
+  # st = (STICKY)  #  Directory with the sticky bit set (+t) and not other-writable
+  # su = (SETUID)  #  File that is setuid (u+s)
+  # tw = (STICKY_OTHER_WRITABLE)  #   # Directory that is sticky and other-writable (+t,o+w)
+  # *.extension =  #  Every file using this extension e.g. *.rpm = files with the ending .rpm
+
+  export LS_COLORS="$(
+    echo 'di=1;94
+          ex=1;92
+          fi=0;33
+          ln=1;35;40
+          mi=1;31
+          ow=1;36;40' | xargs | sed 's/[[:space:]]/:/g')"
   alias ls='ls --color=auto'
+  alias ll='ls -alh --color=auto'
+  alias grep='grep --color'
 
   # Prevent suspending the terminal
   stty ixany
@@ -57,6 +136,40 @@ fi
 
 # Mac-specific configs
 if [ $(uname -s) = $UNAME_MAC ]; then
+  # LSCOLORS:
+  # a - black
+  # b - red
+  # c - green
+  # d - brown
+  # e - blue
+  # f - magenta
+  # g - cyan
+  # h - light grey
+  # A - bold grey-black
+  # B - bold red
+  # C - bold green
+  # D - bold yellow-brown
+  # E - bold blue
+  # F - bold magenta
+  # G - bold cyan
+  # H - bold light grey
+  # x - default foreground or background
+
+  # The order of the attributes are:
+  # 1. directory
+  # 2. symbolic link
+  # 3. socket
+  # 4. pipe
+  # 5. executable
+  # 6. block special
+  # 7. character special
+  # 8. executable with setuid bit set
+  # 9. executable with setgid bit set
+  # 10. directory writable to others, with sticky bit
+  # 11. directory writable to others, without sticky bit
+
+  export CLICOLOR=1
+  export LSCOLORS=ExFxCxDxBxegedabagacad
   alias ls='ls -G'
 fi
 
