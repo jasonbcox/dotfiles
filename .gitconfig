@@ -54,25 +54,26 @@
     fi \
   };f"
 
-  # Fetch a Github PR. After fetching, the commit can be checked out like normal
+  # Fetch and branch a Github PR
   pr = "!f(){ \
-    if [ $# -lt 1 ] || [ $# -gt 2 ]; then \
+    if [ \"$#\" -lt 1 ] || [ \"$#\" -gt 2 ]; then \
       echo \"Expected arguments: <remote> <Github-PR-#>\"; \
       exit 1; \
     fi; \
-    remote=\"origin\"; \
-    if [ $# -eq 2 ]; then \
-      remote=$1; \
-      prnum=$2; \
+    REMOTE=\"origin\"; \
+    if [ \"$#\" -eq 2 ]; then \
+      REMOTE=\"$1\"; \
+      PR_NUM=\"$2\"; \
     else \
-      prnum=$1; \
+      PR_NUM=\"$1\"; \
     fi; \
-    remote_exists=$(git remote | grep \"^$remote\\$\" | wc -l); \
-    if [ $remote_exists -eq 0 ]; then \
+    REMOTE_EXISTS=$(git remote | grep \"^${REMOTE}\\$\" | wc -l); \
+    if [ \"$REMOTE_EXISTS\" -eq 0 ]; then \
       echo \"The remote you specified does not exist!\"; \
       exit 2; \
     fi; \
-    git fetch \"$remote\" \"pull/$prnum/head\"; \
+    git fetch \"${REMOTE}\" \"pull/${PR_NUM}/head\"; \
+    git checkout -b \"github-pr${PR_NUM}\" FETCH_HEAD; \
   };f"
 
   deleted-files = "!f(){ git lg --diff-filter=D --summary \"$@\" ;};f"
