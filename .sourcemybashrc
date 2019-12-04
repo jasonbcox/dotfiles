@@ -1,0 +1,3 @@
+
+[ -f ~/.bashrc.custom ] && source ~/.bashrc.custom
+

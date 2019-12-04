@@ -15,6 +15,10 @@
 
 *.log
 
+/.bashrc
+/.bashrc.old
+/.bash_profile
+/.bash_profile.old
 /.profile_aliases
 /.gituser
 /.gitignore-patterns
