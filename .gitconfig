@@ -84,6 +84,7 @@
   plom = pull --rebase origin master:master # Pull latest master and then rebase current branch onto master
   bl = branch -al # List all branches (remotes included)
   ch = checkout
+  sh = show -m --first-parent
 
   # Shorthand for `rebase --onto targetbranch somebranch~ somebranch`, to rebase a branch with a single commit onto another branch
   ro = "!f(){ git rebase --onto $1 $2~ $2 ;};f"
