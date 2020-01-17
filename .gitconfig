@@ -78,7 +78,8 @@
 
   deleted-files = "!f(){ git lg --diff-filter=D --summary \"$@\" ;};f"
   tracked-files = ls-tree -r master --name-only
-  committers = "!f(){ git shortlog -sne \"$@\" | grep -vf ~/.gitignore-users ;};f"
+  authors = "!f(){ git shortlog -sne \"$@\" | grep -vf ~/.gitignore-users ;};f"
+  committers = "!f(){ git authors -c \"$@\" ;};f"
 
   pl = pull --rebase
   plom = pull --rebase origin master:master # Pull latest master and then rebase current branch onto master
