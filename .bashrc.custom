@@ -200,6 +200,12 @@ fi
 # Disable killing the shell with CTRL-D
 IGNOREEOF=5
 
+# virtualenvwrapper for Python development, if installed
+if [ -f /usr/local/bin/virtualenvwrapper.sh ] ; then
+  export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+  source /usr/local/bin/virtualenvwrapper.sh
+fi
+
 # Source optional configs, if they exist
 [ -f ~/.profile_aliases ] && source ~/.profile_aliases
 
