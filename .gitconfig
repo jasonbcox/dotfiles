@@ -92,3 +92,7 @@
 
   sl = stash list
   ss  = "!sh -c 'git stash show -p stash@{$1}' -" # Show the diff for the given stash number
+
+  # TODO: These aliases need to be piped into `less -R` for paging. Fix this.
+  blame-color = "!~/git-blame-colorizer.sh commit"
+  blame-age = "!~/git-blame-colorizer.sh age"
