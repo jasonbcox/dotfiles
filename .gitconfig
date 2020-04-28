@@ -91,7 +91,9 @@
   ro = "!f(){ git rebase --onto $1 $2~ $2 ;};f"
 
   sl = stash list
-  ss  = "!sh -c 'git stash show -p stash@{$1}' -" # Show the diff for the given stash number
+  ss  = "!sh -c 'git stash show -p stash@{$1}' -" # Show the diff of a given stash number
+  sa  = "!sh -c 'git stash apply stash@{$1}' -" # Apply the diff from a given stash number
+  sd  = "!sh -c 'git stash drop stash@{$1}' -" # Drop a given stash by number
 
   # TODO: These aliases need to be piped into `less -R` for paging. Fix this.
   blame-color = "!~/git-blame-colorizer.sh commit"
