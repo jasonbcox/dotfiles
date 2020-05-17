@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
+set -euxo pipefail
 
 TOPLEVEL=$(git rev-parse --show-toplevel)
-cd "$TOPLEVEL"
+cd "${TOPLEVEL}"
 
 # Assume that .gnupg/gpg-agent.conf may have changed, so restart gpg-agent
 # (kill it, it will restart as needed)
@@ -25,3 +25,7 @@ fi
 
 # TODO: Copy .templates/.profile_aliases once it has been refactored to work on multiple platforms
 touch .profile_aliases
+
+if [ ! -f launch-tmux.sh ]; then
+  cp .templates/launch-tmux.sh .
+fi

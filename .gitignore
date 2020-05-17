@@ -12,8 +12,8 @@
 !/.templates/
 !/.templates/**
 
-!/.scripts/
-!/.scripts/**
+!/scripts/
+!/scripts/**
 
 *.log
 
@@ -31,3 +31,5 @@
 /.bash_history
 /.sudo_as_admin_successful
 /.lesshst
+
+/launch-tmux.sh
