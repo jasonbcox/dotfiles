@@ -86,6 +86,7 @@
   bl = branch -al # List all branches (remotes included)
   ch = checkout
   sh = show -m --first-parent
+  shm = show -m --first-parent --color-moved
 
   # Shorthand for `rebase --onto targetbranch somebranch~ somebranch`, to rebase a branch with a single commit onto another branch
   ro = "!f(){ git rebase --onto $1 $2~ $2 ;};f"
