@@ -19,8 +19,10 @@
 
 /.bashrc
 /.bashrc.old
+/.bash_logout
 /.bash_profile
 /.bash_profile.old
+/.profile
 /.profile_aliases
 /.gituser
 /.gitignore-users
