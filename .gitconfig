@@ -46,14 +46,6 @@
   # Show log of a deleted file
   lg-d      = log --pretty=compact --graph --
 
-  lg-ignore = "!f(){ \
-    if [ -f ~/.gitignore-patterns ]; then \
-      git lg -n 100 $@ | grep -vf ~/.gitignore-patterns; \
-    else \
-      git lg -n 100 $@; \
-    fi \
-  };f"
-
   # Fetch and branch a Github PR
   pr = "!f(){ \
     if [ \"$#\" -lt 1 ] || [ \"$#\" -gt 2 ]; then \

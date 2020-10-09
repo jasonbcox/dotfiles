@@ -23,7 +23,6 @@
 /.bash_profile.old
 /.profile_aliases
 /.gituser
-/.gitignore-patterns
 /.gitignore-users
 
 /.arcrc
