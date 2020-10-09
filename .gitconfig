@@ -22,11 +22,15 @@
   renames = copies
 
 [pretty]
-  compact = format:%C(red)%h%C(reset) -%C(yellow)%d%C(reset) %s %C(green)(%cd ~ %cr) %C(bold blue)<%aN %C(cyan)- %cN%C(blue)>%C(reset)
-  morecompact = format:%C(red)%h%C(reset) -%C(yellow)%d%C(reset) %<(60,trunc)%s %C(green)(%cr)%C(reset)
+  compact = format:%C(red)%h%C(reset) -%C(yellow)%d%C(reset) %<(120,trunc)%s %C(green)(%cd ~ %cr) %C(bold blue)<%aN %C(cyan)- %cN%C(blue)>%C(reset)
+  morecompact = format:%C(red)%h%C(reset) -%C(yellow)%d%C(reset) %<(110,trunc)%s %C(green)(%cd) %C(bold blue)<%aN %C(cyan)- %cN%C(blue)>%C(reset)
+  mostcompact = format:%C(red)%h%C(reset) -%C(yellow)%d%C(reset) %<(60,trunc)%s %C(green)(%cr)%C(reset)
 
 [format]
   pretty = fuller
+
+[mailmap]
+  file = ~/.mailmap
 
 [alias]
   # Reminder: shell commands in .gitconfig run at the repo's top level, so
@@ -34,16 +38,16 @@
   s = status
 
   # Graph-print current branch
-  l         = log --pretty=morecompact --graph
+  l         = log --pretty=mostcompact --graph
   lg        = log --pretty=compact --graph
 
   # Show all merge commits for branches or files
-  lm        = log --pretty=morecompact --first-parent -m
-  lgm       = log --pretty=compact --first-parent -m
-  lg-m      = log --pretty=compact --first-parent -m
+  lm        = log --pretty=mostcompact --first-parent -m
+  lgm       = log --pretty=morecompact --first-parent -m
+  lg-m      = log --pretty=morecompact --first-parent -m
 
   # Graph-print all local branches
-  lb        = log --pretty=morecompact --graph --decorate --branches
+  lb        = log --pretty=mostcompact --graph --decorate --branches
   lgb       = log --pretty=compact --graph --decorate --branches
   lg-b      = log --pretty=compact --graph --decorate --branches
 
