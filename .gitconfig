@@ -49,19 +49,17 @@
   # Fetch and branch a Github PR
   pr = "!f(){ \
     if [ \"$#\" -lt 1 ] || [ \"$#\" -gt 2 ]; then \
-      echo \"Expected arguments: <remote> <Github-PR-#>\"; \
+      echo \"Expected arguments: [remote (default: origin)] github-pr-num\"; \
       exit 1; \
     fi; \
     REMOTE=\"origin\"; \
+    PR_NUM=\"$1\"; \
     if [ \"$#\" -eq 2 ]; then \
       REMOTE=\"$1\"; \
       PR_NUM=\"$2\"; \
-    else \
-      PR_NUM=\"$1\"; \
     fi; \
-    REMOTE_EXISTS=$(git remote | grep \"^${REMOTE}\\$\" | wc -l); \
-    if [ \"$REMOTE_EXISTS\" -eq 0 ]; then \
-      echo \"The remote you specified does not exist!\"; \
+    if [ \"$(git remote | grep \"^${REMOTE}\\$\" | wc -l)\" -eq 0 ]; then \
+      echo \"Git remote '${REMOTE}' does not exist!\"; \
       exit 2; \
     fi; \
     git fetch \"${REMOTE}\" \"pull/${PR_NUM}/head\"; \
