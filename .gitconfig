@@ -22,29 +22,33 @@
   renames = copies
 
 [pretty]
-  compact = format:%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd ~ %cr) %C(bold blue)<%an>%Creset
+  compact = format:%C(red)%h%C(reset) -%C(yellow)%d%C(reset) %s %C(green)(%cd ~ %cr) %C(bold blue)<%aN %C(cyan)- %cN%C(blue)>%C(reset)
+  morecompact = format:%C(red)%h%C(reset) -%C(yellow)%d%C(reset) %<(60,trunc)%s %C(green)(%cr)%C(reset)
 
 [format]
   pretty = fuller
 
 [alias]
+  # Reminder: shell commands in .gitconfig run at the repo's top level, so
+  # do not use the shell syntax when it can be helped.
   s = status
 
   # Graph-print current branch
-  # Reminder: shell commands in .gitconfig run at the repo's top level, so do not use the shell syntax when it can be helped.
+  l         = log --pretty=morecompact --graph
   lg        = log --pretty=compact --graph
 
-  # Graph-print all branches, including remotes
-  lg-all    = log --pretty=compact --graph --decorate --all
-
   # Show all merge commits for branches or files
+  lm        = log --pretty=morecompact --first-parent -m
+  lgm       = log --pretty=compact --first-parent -m
   lg-m      = log --pretty=compact --first-parent -m
 
   # Graph-print all local branches
+  lb        = log --pretty=morecompact --graph --decorate --branches
+  lgb       = log --pretty=compact --graph --decorate --branches
   lg-b      = log --pretty=compact --graph --decorate --branches
 
-  # Show log of a deleted file
-  lg-d      = log --pretty=compact --graph --
+  # Graph-print all branches, including remotes
+  lg-all    = log --pretty=compact --graph --decorate --all
 
   # Fetch and branch a Github PR
   pr = "!f(){ \
@@ -72,19 +76,25 @@
   committers = "!f(){ git authors -c \"$@\" ;};f"
 
   pl = pull --rebase
-  plom = pull --rebase origin master:master # Pull latest master and then rebase current branch onto master
-  bl = branch -al # List all branches (remotes included)
+  # Pull latest master and then rebase current branch onto master
+  plom = pull --rebase origin master:master
+
+  # List all branches (remotes included)
+  bl = branch -al
+
   ch = checkout
+
   sh = show -m --first-parent
   shm = show -m --first-parent --color-moved
 
-  # Shorthand for `rebase --onto targetbranch somebranch~ somebranch`, to rebase a branch with a single commit onto another branch
+  # Shorthand for `rebase --onto targetbranch somebranch~ somebranch`, to
+  # rebase a branch with a single commit onto another branch
   ro = "!f(){ git rebase --onto $1 $2~ $2 ;};f"
 
   sl = stash list
   ss  = "!sh -c 'git stash show -p stash@{$1}' -" # Show the diff of a given stash number
-  sa  = "!sh -c 'git stash apply stash@{$1}' -" # Apply the diff from a given stash number
-  sd  = "!sh -c 'git stash drop stash@{$1}' -" # Drop a given stash by number
+  sa  = "!sh -c 'git stash apply stash@{$1}' -"   # Apply the diff from a given stash number
+  sd  = "!sh -c 'git stash drop stash@{$1}' -"    # Drop a given stash by number
 
   # TODO: These aliases need to be piped into `less -R` for paging. Fix this.
   blame-color = "!~/git-blame-colorizer.sh commit"
