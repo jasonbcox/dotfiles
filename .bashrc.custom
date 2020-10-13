@@ -129,6 +129,9 @@ if [ $(uname -s) = $UNAME_LINUX ]; then
   alias ll='ls -alh --color=auto'
   alias grep='grep --color'
 
+  # Resets all directories and files to default permissions recursively
+  alias resetperms='find . -type d -exec chmod 775 {} \; && find . -type f -exec chmod 644 {} \;'
+
   # Prevent suspending the terminal
   stty ixany
   stty ixoff -ixon
