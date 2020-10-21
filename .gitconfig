@@ -32,6 +32,9 @@
 [mailmap]
   file = ~/.mailmap
 
+[merge]
+  conflictstyle = diff3
+
 [alias]
   # Reminder: shell commands in .gitconfig run at the repo's top level, so
   # do not use the shell syntax when it can be helped.
