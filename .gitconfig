@@ -16,7 +16,7 @@
 [log]
   follow = true
   abbrevCommit = true
-  date = short
+  date = iso
 
 [diff]
   renames = copies
@@ -42,20 +42,20 @@
 
   # Graph-print current branch
   l         = log --pretty=mostcompact --graph
-  lg        = log --pretty=compact --graph
+  lg        = log --pretty=compact --date=short --graph
 
   # Show all merge commits for branches or files
   lm        = log --pretty=mostcompact --first-parent -m
-  lgm       = log --pretty=morecompact --first-parent -m
-  lg-m      = log --pretty=morecompact --first-parent -m
+  lgm       = log --pretty=morecompact --date=short --first-parent -m
+  lg-m      = log --pretty=morecompact --date=short --first-parent -m
 
   # Graph-print all local branches
   lb        = log --pretty=mostcompact --graph --decorate --branches
-  lgb       = log --pretty=compact --graph --decorate --branches
-  lg-b      = log --pretty=compact --graph --decorate --branches
+  lgb       = log --pretty=compact --date=short --graph --decorate --branches
+  lg-b      = log --pretty=compact --date=short --graph --decorate --branches
 
   # Graph-print all branches, including remotes
-  lg-all    = log --pretty=compact --graph --decorate --all
+  lg-all    = log --pretty=compact --date=short --graph --decorate --all
 
   # Fetch and branch a Github PR
   pr = "!f(){ \
