@@ -6,5 +6,7 @@ function sha256sumdir() {
     echo "Error: Expecting one argument (a directory)"
     return 1
   fi
-  sha256sum <(find "$1" -printf "%s %f\\n")
+  pushd "$1" > /dev/null
+  sha256sum <(find . -printf "%s %f\\n")
+  popd > /dev/null
 }
