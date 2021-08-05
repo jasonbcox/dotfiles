@@ -5,6 +5,7 @@
 
 ```
 ./setup.sh
+./install-packages.sh   # if desired
 ```
 
 `./launch-tmux.sh` will be created from a template. Edit as you see fit for work on this machine.
