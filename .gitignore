@@ -22,10 +22,13 @@
 /.bash_logout
 /.bash_profile
 /.bash_profile.old
+/.mkshrc
 /.profile
 /.profile_aliases
 /.gituser
 /.gitignore-users
+/.zlogin
+/.zshrc
 
 /.arcrc
 /.babel.json
@@ -34,3 +37,9 @@
 /.lesshst
 
 /launch-tmux.sh
+
+/.ICEauthority
+/.Xauthority
+/.python_history
+/.xsession-errors*
+/.wget-hsts
