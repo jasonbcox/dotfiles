@@ -58,6 +58,8 @@ DEBUG_PACKAGES=(
   htop
   # For nslookup and dig
   dnsutils
+  # For identify
+  imagemagick
 )
 if [ "${DEBUG}" == "true" ]; then
   sudo apt-get install $(join_by ' ' "${DEBUG_PACKAGES[@]}")

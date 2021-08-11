@@ -132,6 +132,7 @@ if [ $(uname -s) = $UNAME_LINUX ]; then
   # Resets all directories and files to default permissions recursively
   alias resetperms='find . -type d -exec chmod 775 {} \; && find . -type f -exec chmod 644 {} \;'
 
+  source ./scripts/debug-helpers.sh
   source ./scripts/hash-helpers.sh
 
   # Prevent suspending the terminal
