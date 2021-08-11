@@ -5,6 +5,8 @@ set -euxo pipefail
 TOPLEVEL=$(git rev-parse --show-toplevel)
 cd "${TOPLEVEL}"
 
+./install-packages.sh
+
 # Assume that .gnupg/gpg-agent.conf may have changed, so restart gpg-agent
 # (kill it, it will restart as needed)
 gpgconf --kill gpg-agent
