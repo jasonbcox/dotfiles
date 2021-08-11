@@ -32,13 +32,33 @@ case $1 in
 esac
 done
 
+function join_by() {
+  local IFS="$1"
+  shift
+  echo "$*"
+}
+
 # Always update existing packages first
 sudo apt-get update
 sudo apt-get upgrade
 
 # Always install these base packages
-sudo apt-get install git gpgconf vim tmux bash-completion software-properties-common
+BASE_PACKAGES=(
+  bash-completion
+  git
+  gpgconf
+  software-properties-common
+  tmux
+  vim
+)
+sudo apt-get install $(join_by ' ' "${BASE_PACKAGES[@]}")
 
+DEBUG_PACKAGES=(
+  # Better resource monitor than top
+  htop
+  # For nslookup and dig
+  dnsutils
+)
 if [ "${DEBUG}" == "true" ]; then
-  sudo apt-get install htop dnsutils
+  sudo apt-get install $(join_by ' ' "${DEBUG_PACKAGES[@]}")
 fi
