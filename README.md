@@ -5,8 +5,10 @@
 
 ```
 ./setup.sh
-./install-packages.sh   # if desired
 ```
+
+Depending on desired environment, install additional useful packages using `./install-packages.sh`.
+See `./install-packages.sh --help` for more info.
 
 `./launch-tmux.sh` will be created from a template. Edit as you see fit for work on this machine.
 
