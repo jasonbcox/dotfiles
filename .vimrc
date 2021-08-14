@@ -31,6 +31,12 @@ set wildmode=longest,full                         " TAB-autocomplete shows the f
 set modelines=0
 set nomodeline
 
+" When writing encrypted files (:X), use a strong encryption method
+" If additional security is desired, consider setting the following in
+" encrypted vim sessions to disable clear text being written to disk:
+" set viminfo= | set nobackup | set nowritebackup
+set cryptmethod=blowfish2
+
 " Pathogen - vim plugin system (see github.com/tpope/vim-pathogen
 call pathogen#infect()
 
