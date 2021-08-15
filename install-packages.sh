@@ -60,6 +60,8 @@ DEBUG_PACKAGES=(
   dnsutils
   # For identify
   imagemagick
+  # JSON formatter
+  jq
 )
 if [ "${DEBUG}" == "true" ]; then
   sudo apt-get install $(join_by ' ' "${DEBUG_PACKAGES[@]}")
