@@ -54,14 +54,16 @@ BASE_PACKAGES=(
 sudo apt-get install $(join_by ' ' "${BASE_PACKAGES[@]}")
 
 DEBUG_PACKAGES=(
-  # Better resource monitor than top
-  htop
   # For nslookup and dig
   dnsutils
+  # Better resource monitor than top
+  htop
   # For identify
   imagemagick
   # JSON formatter
   jq
+  # For netstat
+  net-tools
 )
 if [ "${DEBUG}" == "true" ]; then
   sudo apt-get install $(join_by ' ' "${DEBUG_PACKAGES[@]}")
