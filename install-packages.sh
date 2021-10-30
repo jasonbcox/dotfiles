@@ -44,6 +44,7 @@ sudo apt-get upgrade
 
 # Always install these base packages
 BASE_PACKAGES=(
+  apt-transport-https
   bash-completion
   git
   gpgconf
