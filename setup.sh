@@ -5,7 +5,10 @@ set -euxo pipefail
 TOPLEVEL=$(git rev-parse --show-toplevel)
 cd "${TOPLEVEL}"
 
-./install-packages.sh
+# Only attempt to install packages if user has sudo privileges
+if sudo -nv 2>&1 | grep -v "may not run sudo" > /dev/null; then
+  ./install-packages.sh
+fi
 
 # Assume that .gnupg/gpg-agent.conf may have changed, so restart gpg-agent
 # (kill it, it will restart as needed)
