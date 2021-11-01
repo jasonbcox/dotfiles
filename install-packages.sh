@@ -13,6 +13,7 @@ EOF
 }
 
 DEBUG=""
+NODE=""
 
 while [[ $# -gt 0 ]]; do
 case $1 in
@@ -23,6 +24,10 @@ case $1 in
   -h|--help)
     help_message
     exit 0
+    ;;
+  -n|--node)
+    NODE=true
+    shift  # shift past argument
     ;;
   *)
     echo "Unknown argument: $1"
@@ -68,4 +73,24 @@ DEBUG_PACKAGES=(
 )
 if [ "${DEBUG}" == "true" ]; then
   sudo apt-get install $(join_by ' ' "${DEBUG_PACKAGES[@]}")
+fi
+
+if [ "${NODE}" == "true" ]; then
+  if [ ! -f ~/.profile_aliases ] || [ -z $(cat ~/.profile_aliases | grep N_PREFIX) ]; then
+    (cat << EOF
+
+export N_PREFIX="\${HOME}/.n"
+export PATH="\${N_PREFIX}/bin":\${PATH}
+EOF
+    ) >> ~/.profile_aliases
+  fi
+  source ~/.profile_aliases
+
+  # Install n (node manager)
+  curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o n-installer
+  bash n-installer lts
+  npm install --global n
+  rm n-installer
+
+  npm install --global yarn
 fi
