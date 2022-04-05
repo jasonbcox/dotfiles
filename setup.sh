@@ -9,7 +9,7 @@ cd "${TOPLEVEL}"
 touch .profile_aliases
 
 # Only attempt to install packages if user has sudo privileges
-if sudo -nv 2>&1 | grep -v "may not run sudo" > /dev/null; then
+if sudo -nv 2>&1 > /dev/null || sudo -nv 2>&1 | grep -v "may not run sudo" > /dev/null ; then
   ./install-packages.sh
 fi
 
