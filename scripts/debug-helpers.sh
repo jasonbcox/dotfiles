@@ -10,3 +10,7 @@ function image-metadata() {
   echo "Summary:"
   identify "$1"
 }
+
+function whatismyip() {
+  echo "$(curl -s ifconfig.me)"
+}
