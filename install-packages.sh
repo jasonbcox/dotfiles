@@ -66,6 +66,8 @@ DEBUG_PACKAGES=(
   htop
   # For identify
   imagemagick
+  # For ping
+  iputils-ping
   # JSON formatter
   jq
   # For netstat
