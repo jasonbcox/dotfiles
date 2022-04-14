@@ -65,7 +65,7 @@ color_age() {
 }
 
 color_commit() {
-  GIT_HASH=$(echo "$1" | cut -d' ' -f 1)
+  GIT_HASH=$(echo "$1" | cut -d' ' -f 1 | sed 's/\^//')
   echo $((0x${GIT_HASH} % 204 + 28))
 }
 
