@@ -1,6 +1,7 @@
 ﻿scriptencoding utf-8
 set encoding=utf-8
 set t_Co=256
+set term=screen-256color
 
 set backupdir=~/.vim/backup
 set directory=~/.vim/swap
