@@ -25,6 +25,8 @@ ln -s .sourcemybashrc .bash_profile
 
 mkdir -p projects
 
+git branch --set-upstream-to=origin/master
+
 if [ ! -f .gituser ]; then
   cp .templates/.gituser .
   echo "Defaulting to this .gituser:"
