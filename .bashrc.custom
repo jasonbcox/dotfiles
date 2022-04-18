@@ -127,6 +127,7 @@ if [ $(uname -s) = $UNAME_LINUX ]; then
           ow=1;36;40' | xargs | sed 's/[[:space:]]/:/g')"
   alias ls='ls --color=always'
   alias ll='ls -alh --color=always'
+  alias lt='ls --full-time'
   alias grep='grep --color'
   alias less='less -R'
 
