@@ -125,9 +125,10 @@ if [ $(uname -s) = $UNAME_LINUX ]; then
           ln=1;35;40
           mi=1;31
           ow=1;36;40' | xargs | sed 's/[[:space:]]/:/g')"
-  alias ls='ls --color=auto'
-  alias ll='ls -alh --color=auto'
+  alias ls='ls --color=always'
+  alias ll='ls -alh --color=always'
   alias grep='grep --color'
+  alias less='less -R'
 
   # Resets all directories and files to default permissions recursively
   alias resetperms='find . -type d -exec chmod 775 {} \; && find . -type f -exec chmod 644 {} \;'
