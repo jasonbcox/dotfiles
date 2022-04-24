@@ -20,6 +20,7 @@ set expandtab tabstop=2 shiftwidth=2              " Set indentation width and us
 
 set backspace=indent,eol,start                    " Enable expected backspace behavior
 set showmatch                                     " Show matching brackets
+set hlsearch                                      " Highlight search queries
 set incsearch                                     " Highlight as you type search queries
 
 set wildmenu
