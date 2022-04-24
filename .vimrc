@@ -90,6 +90,9 @@ highlight Special ctermfg=160 guifg=#d70000    " Red/Red3
 " Search
 highlight Search ctermfg=160 guifg=#d70000 ctermbg=11 guibg=#ffff00     " Red/Red3 + Yellow/Yellow1
 
+" Matching brackets/parentheses
+highlight MatchParen ctermfg=220 guifg=#ffdf00 ctermbg=5 guibg=#ff00ff
+
 highlight NonText ctermfg=248 guifg=#a8a8a8
 
 set list
