@@ -56,39 +56,40 @@ let g:go_highlight_build_constraints = 1
 " Make whitespace visible
 set listchars=tab:\»\ ,trail:·,extends:+,precedes:+
 
-highlight Title ctermfg=203 guifg=#ff5f5f      " Red/IndianRed1
-highlight Comment ctermfg=34 guifg=#00af00     " DarkGreen/Green3
+" Use :XtermColorTable plugin to determine colors
+highlight Title ctermfg=203 guifg=#ff5f5f
+highlight Comment ctermfg=34 guifg=#00af00
 
 " Constants
-highlight Constant ctermfg=33 guifg=#0087ff    " DodgerBlue1
-highlight String ctermfg=208 guifg=#ff8700     " DarkOrange
-highlight Character ctermfg=196 guifg=#ff0000  " Red
-highlight Number ctermfg=29 guifg=#00875f      " SpringGreen4/DarkCyan
-highlight Boolean ctermfg=33 guifg=#0087ff     " DodgerBlue1
-highlight Float ctermfg=31 guifg=#0087af       " DeepSkyBlue3
+highlight Constant ctermfg=33 guifg=#0087ff
+highlight String ctermfg=208 guifg=#ff8700
+highlight Character ctermfg=196 guifg=#ff0000
+highlight Number ctermfg=29 guifg=#00875f
+highlight Boolean ctermfg=33 guifg=#0087ff
+highlight Float ctermfg=31 guifg=#0087af
 
 " Identifiers
-highlight Identifier ctermfg=226 guifg=#ffff00 " Yellow/Yellow1
+highlight Identifier ctermfg=226 guifg=#ffff00
 " Function
 
 " Statements
-highlight Statement ctermfg=33 guifg=#0087ff   " DodgerBlue1
+highlight Statement ctermfg=33 guifg=#0087ff
 " Conditional, Repeat, Label, Operator, Keyword, Exception
 
 " PreProcs
-highlight PreProc ctermfg=93 guifg=#8700ff     " Purple
+highlight PreProc ctermfg=93 guifg=#8700ff
 " Include, Define, Macro, PreCondit
 
 " Types
-highlight Type ctermfg=125 guifg=#af005f       " DeepPink4
+highlight Type ctermfg=125 guifg=#af005f
 " StorageClass, Structure, Typedef
 
 " Specials
-highlight Special ctermfg=160 guifg=#d70000    " Red/Red3
+highlight Special ctermfg=160 guifg=#d70000
 " SpecialChar, Tag, Delimiter, SpecialComment, Debug
 
 " Search
-highlight Search ctermfg=160 guifg=#d70000 ctermbg=11 guibg=#ffff00     " Red/Red3 + Yellow/Yellow1
+highlight Search ctermfg=160 guifg=#d70000 ctermbg=11 guibg=#ffff00
 
 " Matching brackets/parentheses
 highlight MatchParen ctermfg=220 guifg=#ffdf00 ctermbg=5 guibg=#ff00ff
