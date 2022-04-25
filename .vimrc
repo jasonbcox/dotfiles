@@ -55,6 +55,7 @@ let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 
 " Make whitespace visible
+set list
 set listchars=tab:\»\ ,trail:·,extends:+,precedes:+
 
 " Use :XtermColorTable plugin to determine colors
@@ -97,7 +98,14 @@ highlight MatchParen ctermfg=220 guifg=#ffdf00 ctermbg=5 guibg=#ff00ff
 
 highlight NonText ctermfg=248 guifg=#a8a8a8
 
-set list
+" Custom highlight groups
+
+" Namespaces
+highlight Namespace ctermfg=160 guifg=#df0000
+
+" Template brackets
+highlight Template ctermfg=14 guifg=#00ffff
+
 syntax enable
 
 if filereadable(glob("~/.vimrc.extras"))
