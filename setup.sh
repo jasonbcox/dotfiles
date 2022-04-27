@@ -13,6 +13,9 @@ if sudo -nv 2>&1 > /dev/null || sudo -nv 2>&1 | grep -v "may not run sudo" > /de
   ./install-packages.sh
 fi
 
+# Make sure .gnupg directory has safe permissions
+chmod 700 .gnupg
+
 # Assume that .gnupg/gpg-agent.conf may have changed, so restart gpg-agent
 # (kill it, it will restart as needed)
 gpgconf --kill gpg-agent
