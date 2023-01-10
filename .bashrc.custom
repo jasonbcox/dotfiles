@@ -134,13 +134,12 @@ if [ $(uname -s) = $UNAME_LINUX ]; then
   # Resets all directories and files to default permissions recursively
   alias resetperms='find . -type d -exec chmod 775 {} \; && find . -type f -exec chmod 644 {} \;'
 
-  alias compresspdf='ps2pdf'
-
   # https://stackoverflow.com/a/11532197
   alias uniqunsorted='awk "!seen[\$0]++"'
 
   source ~/scripts/debug-helpers.sh
   source ~/scripts/hash-helpers.sh
+  source ~/scripts/pdf-helpers.sh
 
   # Prevent suspending the terminal
   stty ixany
