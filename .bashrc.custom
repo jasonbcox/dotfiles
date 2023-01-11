@@ -137,6 +137,7 @@ if [ $(uname -s) = $UNAME_LINUX ]; then
   # https://stackoverflow.com/a/11532197
   alias uniqunsorted='awk "!seen[\$0]++"'
 
+  source ~/scripts/backup-helpers.sh
   source ~/scripts/debug-helpers.sh
   source ~/scripts/hash-helpers.sh
   source ~/scripts/pdf-helpers.sh
