@@ -2,6 +2,9 @@
 
 set -eux
 
+eval $(ssh-agent)
+ssh-add
+
 # Helper function to execute commands in the same bash session as the window when it's created.
 # This prevents the window from dieing after the commands complete since bash is holding the
 # window open.
