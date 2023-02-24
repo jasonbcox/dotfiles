@@ -23,3 +23,29 @@ Make sure the terminal properly sends the following:
 ^Left  : \033[1;5D (ESCAPE [1;5D)
 ^Right : \033[1;5C (ESCAPE [1;5C)
 ```
+
+## vim Reminders
+
+Move cursor to:
+```
+gg    Start of file
+G     End of file
+
+%     Matching brace or parentheses
+```
+
+Indentation:
+```
+>>    Indent line once
+<<    De-indent line once
+5>>   Indent line 5 times
+
+>aB   Indent a block of code (cursor must be within the block)
+>iB   Indent the inner lines of a block of code
+<aB   De-indent a block
+<iB   De-indent the inner lines of a block
+
+]p    Paste text indented to be aligned with surroundings
+
+.     Repeat last command
+```
