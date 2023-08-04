@@ -26,6 +26,8 @@
   morecompact = format:%C(red)%h%C(reset) -%C(yellow)%d%C(reset) %<(110,trunc)%s %C(green)(%cd) %C(bold blue)<%aN %C(cyan)- %cN%C(blue)>%C(reset)
   mostcompact = format:%C(red)%h%C(reset) -%C(yellow)%d%C(reset) %<(60,trunc)%s %C(green)(%cr)%C(reset)
 
+  compacthistory = format:%C(red)%h%C(reset) - %<(60,trunc)%s %C(green)(%cd)%C(reset)
+
 [format]
   pretty = fuller
 
@@ -48,6 +50,8 @@
   lm        = log --pretty=mostcompact --first-parent -m
   lgm       = log --pretty=morecompact --date=short --first-parent -m
   lg-m      = log --pretty=morecompact --date=short --first-parent -m
+
+  lm-history = log --pretty=compacthistory --date=short --abbrev=12 --first-parent -m --decorate-refs-exclude=refs/tags
 
   # Graph-print all local branches
   lb        = log --pretty=mostcompact --graph --decorate --branches
