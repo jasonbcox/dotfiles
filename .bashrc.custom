@@ -137,6 +137,9 @@ if [ $(uname -s) = $UNAME_LINUX ]; then
   # https://stackoverflow.com/a/11532197
   alias uniqunsorted='awk "!seen[\$0]++"'
 
+  # Pipe contents to this to copy it to the clipboard
+  alias copytoclipboard='xclip -i -selection clipboard'
+
   source ~/scripts/backup-helpers.sh
   source ~/scripts/debug-helpers.sh
   source ~/scripts/hash-helpers.sh
