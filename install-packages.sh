@@ -60,6 +60,8 @@ BASE_PACKAGES=(
 sudo apt-get install $(join_by ' ' "${BASE_PACKAGES[@]}")
 
 DEBUG_PACKAGES=(
+  # For htpasswd
+  apache2-utils
   # For nslookup and dig
   dnsutils
   # Better resource monitor than top
