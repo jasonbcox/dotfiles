@@ -1,0 +1,8 @@
+#!/bin/sh
+# $1 - env file
+# $2 - command to run
+
+# source env
+. "$1"
+# run command in a new session also sourcing env
+exec setsid /usr/bin/env -i "$SHELL" -c "set -a; . $1; $2" < /dev/null

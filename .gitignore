@@ -26,6 +26,7 @@
 /.gitignore-users
 /.profile
 /.profile_aliases
+/.run-as-cron-env
 
 /launch-tmux.sh
 
