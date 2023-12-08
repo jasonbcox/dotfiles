@@ -9,16 +9,17 @@ Install sets of packages. Useful for getting up and running quick.
 Options:
 -d, --debug           Install debugging tools.
 -h, --help            Display this help message.
+-n, --node            Install basic node JS tooling.
 EOF
 }
 
-DEBUG=""
-NODE=""
+INSTALL_DEBUG=""
+INSTALL_NODE=""
 
 while [[ $# -gt 0 ]]; do
 case $1 in
   -d|--debug)
-    DEBUG=true
+    INSTALL_DEBUG=true
     shift  # shift past argument
     ;;
   -h|--help)
@@ -26,7 +27,7 @@ case $1 in
     exit 0
     ;;
   -n|--node)
-    NODE=true
+    INSTALL_NODE=true
     shift  # shift past argument
     ;;
   *)
@@ -76,11 +77,11 @@ DEBUG_PACKAGES=(
   # For netstat
   net-tools
 )
-if [ "${DEBUG}" == "true" ]; then
+if [ "${INSTALL_DEBUG}" == "true" ]; then
   sudo apt-get install $(join_by ' ' "${DEBUG_PACKAGES[@]}")
 fi
 
-if [ "${NODE}" == "true" ]; then
+if [ "${INSTALL_NODE}" == "true" ]; then
   if [ ! -f ~/.profile_aliases ] || [ -z $(cat ~/.profile_aliases | grep N_PREFIX) ]; then
     (cat << EOF
 
