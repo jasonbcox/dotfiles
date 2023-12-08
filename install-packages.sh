@@ -51,6 +51,7 @@ sudo apt-get upgrade
 BASE_PACKAGES=(
   apt-transport-https
   bash-completion
+  curl
   git
   gpgconf
   software-properties-common
