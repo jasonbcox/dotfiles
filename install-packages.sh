@@ -10,11 +10,13 @@ Options:
 -d, --debug           Install debugging tools.
 -h, --help            Display this help message.
 -n, --node            Install basic node JS tooling.
+-p, --python          Install basic python tooling.
 EOF
 }
 
 INSTALL_DEBUG=""
 INSTALL_NODE=""
+INSTALL_PYTHON=""
 
 while [[ $# -gt 0 ]]; do
 case $1 in
@@ -28,6 +30,10 @@ case $1 in
     ;;
   -n|--node)
     INSTALL_NODE=true
+    shift  # shift past argument
+    ;;
+  -p|--python)
+    INSTALL_PYTHON=true
     shift  # shift past argument
     ;;
   *)
@@ -45,8 +51,8 @@ function join_by() {
 }
 
 # Always update existing packages first
-sudo apt-get update
-sudo apt-get upgrade
+sudo apt update
+sudo apt -y upgrade
 
 # Always install these base packages
 BASE_PACKAGES=(
@@ -59,7 +65,7 @@ BASE_PACKAGES=(
   tmux
   vim
 )
-sudo apt-get install $(join_by ' ' "${BASE_PACKAGES[@]}")
+sudo apt -y install $(join_by ' ' "${BASE_PACKAGES[@]}")
 
 DEBUG_PACKAGES=(
   # For htpasswd
@@ -78,7 +84,7 @@ DEBUG_PACKAGES=(
   net-tools
 )
 if [ "${INSTALL_DEBUG}" == "true" ]; then
-  sudo apt-get install $(join_by ' ' "${DEBUG_PACKAGES[@]}")
+  sudo apt -y install $(join_by ' ' "${DEBUG_PACKAGES[@]}")
 fi
 
 if [ "${INSTALL_NODE}" == "true" ]; then
@@ -99,4 +105,13 @@ EOF
   rm n-installer
 
   npm install --global yarn
+fi
+
+PYTHON_PACKAGES=(
+  python3
+  python3-pip
+  python3-venv
+)
+if [ "${INSTALL_PYTHON}" == "true" ]; then
+  sudo apt -y install $(join_by ' ' "${PYTHON_PACKAGES[@]}")
 fi
