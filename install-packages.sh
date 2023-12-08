@@ -14,12 +14,17 @@ Options:
 EOF
 }
 
+INSTALL_C=""
 INSTALL_DEBUG=""
 INSTALL_NODE=""
 INSTALL_PYTHON=""
 
 while [[ $# -gt 0 ]]; do
 case $1 in
+  -c|--cpp)
+    INSTALL_C=true
+    shift  # shift past argument
+    ;;
   -d|--debug)
     INSTALL_DEBUG=true
     shift  # shift past argument
@@ -66,6 +71,16 @@ BASE_PACKAGES=(
   vim
 )
 sudo apt -y install $(join_by ' ' "${BASE_PACKAGES[@]}")
+
+C_PACKAGES=(
+  ccache
+  cmake
+  gcc
+  ninja-build
+)
+if [ "${INSTALL_C}" == "true" ]; then
+  sudo apt -y install $(join_by ' ' "${C_PACKAGES[@]}")
+fi
 
 DEBUG_PACKAGES=(
   # For htpasswd
