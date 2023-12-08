@@ -39,6 +39,7 @@ set list
 set listchars=tab:\»\ ,trail:·,extends:+,precedes:+
 
 set showmatch                                     " Show matching brackets
+set matchpairs+=<:>
 
 " Use :XtermColorTable plugin to determine colors
 " For attributes, see https://neovim.io/doc/user/syntax.html#attr-list
@@ -75,10 +76,11 @@ highlight Special ctermfg=160 guifg=#d70000
 " SpecialChar, Tag, Delimiter, SpecialComment, Debug
 
 " Search
-highlight Search ctermfg=160 guifg=#d70000 ctermbg=11 guibg=#ffff00
+highlight Search ctermfg=141 guifg=#af87ff ctermbg=58 guibg=#5f5f00
+highlight CurSearch ctermfg=160 guifg=#d70000 ctermbg=9 guibg=#ff0000
 
 " Matching brackets/parentheses
-highlight MatchParen ctermfg=220 guifg=#ffdf00 ctermbg=5 guibg=#ff00ff
+highlight MatchParen ctermfg=11 guifg=#ffff00 ctermbg=5 guibg=#800080
 
 " Line numbers
 highlight LineNr ctermfg=130 guifg=#af5f00
