@@ -1,43 +1,23 @@
 ﻿scriptencoding utf-8
-set encoding=utf-8
-set t_Co=256
-set term=screen-256color
 
 set backupdir=~/.vim/backup
 set directory=~/.vim/swap
 
-set nocompatible                                  " Disable vi compatibility (use vim defaults instead)
-set ruler
 set number                                        " Enable line numbers
-set laststatus=2
+" Set StatusLine color before setting the rest of the config in case something
+" breaks. That way, the status line will typically be visible.
 highlight StatusLine ctermfg=52 guifg=DarkRed
+
 set history=100
-set tw=0                                          " Don't wrap text
-set mouse=""                                      " Disable mouse over SSH
+set mouse=""                                      " Disable mouse
 
-set autoindent                                    " Enable autoindenting
 set expandtab tabstop=2 shiftwidth=2              " Set indentation width and use spaces
-
-set backspace=indent,eol,start                    " Enable expected backspace behavior
-set showmatch                                     " Show matching brackets
-set hlsearch                                      " Highlight search queries
-set incsearch                                     " Highlight as you type search queries
-
-set wildmenu
-set wildmode=longest,full                         " TAB-autocomplete shows the full list of options
 
 " Fix for CVE-2019-12735
 " See https://github.com/numirias/security/blob/master/doc/2019-06-04_ace-vim-neovim.md
 " Seeing as modelines just litter files with editor-specific settings, they
 " are mostly useless anyway.
 set modelines=0
-set nomodeline
-
-" When writing encrypted files (:X), use a strong encryption method
-" If additional security is desired, consider setting the following in
-" encrypted vim sessions to disable clear text being written to disk:
-" set viminfo= | set nobackup | set nowritebackup
-set cryptmethod=blowfish2
 
 " Pathogen - vim plugin system (see github.com/tpope/vim-pathogen
 call pathogen#infect()
@@ -58,7 +38,11 @@ let g:go_highlight_build_constraints = 1
 set list
 set listchars=tab:\»\ ,trail:·,extends:+,precedes:+
 
+set showmatch                                     " Show matching brackets
+
 " Use :XtermColorTable plugin to determine colors
+" For attributes, see https://neovim.io/doc/user/syntax.html#attr-list
+" For highlight groups, see https://neovim.io/doc/user/syntax.html#highlight-groups
 highlight Title ctermfg=203 guifg=#ff5f5f
 highlight Comment ctermfg=34 guifg=#00af00
 
@@ -71,7 +55,7 @@ highlight Boolean ctermfg=33 guifg=#0087ff
 highlight Float ctermfg=31 guifg=#0087af
 
 " Identifiers
-highlight Identifier ctermfg=226 guifg=#ffff00
+highlight Identifier cterm=NONE ctermfg=226 guifg=#ffff00
 " Function
 
 " Statements
@@ -96,6 +80,9 @@ highlight Search ctermfg=160 guifg=#d70000 ctermbg=11 guibg=#ffff00
 " Matching brackets/parentheses
 highlight MatchParen ctermfg=220 guifg=#ffdf00 ctermbg=5 guibg=#ff00ff
 
+" Line numbers
+highlight LineNr ctermfg=130 guifg=#af5f00
+
 highlight NonText ctermfg=248 guifg=#a8a8a8
 
 " Custom highlight groups
@@ -105,6 +92,7 @@ highlight Namespace ctermfg=160 guifg=#df0000
 
 " Template brackets
 highlight Template ctermfg=14 guifg=#00ffff
+
 
 syntax enable
 
