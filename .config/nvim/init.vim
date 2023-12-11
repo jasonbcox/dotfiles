@@ -17,7 +17,7 @@ set expandtab tabstop=2 shiftwidth=2              " Set indentation width and us
 " are mostly useless anyway.
 set modelines=0
 
-let g:vim_markdown_folding_disabled=1             " Disable code collapsing
+set nofoldenable                                  " Disable code collapsing
 
 filetype plugin on
 autocmd FileType python setlocal expandtab
