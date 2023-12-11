@@ -50,25 +50,20 @@ highlight Number ctermfg=29 guifg=#00875f
 highlight Boolean ctermfg=33 guifg=#0087ff
 highlight Float ctermfg=31 guifg=#0087af
 
-" Identifiers
+" Identifiers: Function
 highlight Identifier cterm=NONE ctermfg=226 guifg=#ffff00
-" Function
 
-" Statements
+" Statements: Conditional, Repeat, Label, Operator, Keyword, Exception
 highlight Statement ctermfg=33 guifg=#0087ff
-" Conditional, Repeat, Label, Operator, Keyword, Exception
 
-" PreProcs
+" PreProcs: Include, Define, Macro, PreCondit
 highlight PreProc ctermfg=93 guifg=#8700ff
-" Include, Define, Macro, PreCondit
 
-" Types
+" Types: StorageClass, Structure, Typedef
 highlight Type ctermfg=125 guifg=#af005f
-" StorageClass, Structure, Typedef
 
-" Specials
+" Specials: SpecialChar, Tag, Delimiter, SpecialComment, Debug
 highlight Special ctermfg=160 guifg=#d70000
-" SpecialChar, Tag, Delimiter, SpecialComment, Debug
 
 " Search
 highlight Search ctermfg=141 guifg=#af87ff ctermbg=58 guibg=#5f5f00
@@ -84,6 +79,9 @@ highlight LineNr ctermfg=130 guifg=#af5f00
 highlight Whitespace ctermfg=244 guifg=#808080
 " EndOfBuffer and other characters that do not actually exist in the text
 highlight NonText cterm=bold ctermfg=250 gui=bold guifg=#bcbcbc
+
+" Visual mode selection
+highlight Visual ctermbg=238 guibg=#444444
 
 " Custom highlight groups (see /syntax)
 
