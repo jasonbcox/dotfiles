@@ -1,8 +1,5 @@
 ﻿scriptencoding utf-8
 
-set backupdir=~/.vim/backup
-set directory=~/.vim/swap
-
 set termguicolors
 set number                                        " Enable line numbers
 " Set StatusLine color before setting the rest of the config in case something
