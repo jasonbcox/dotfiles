@@ -4,7 +4,7 @@ set termguicolors
 set number                                        " Enable line numbers
 " Set StatusLine color before setting the rest of the config in case something
 " breaks. That way, the status line will typically be visible.
-highlight StatusLine ctermfg=52 guifg=DarkRed
+highlight StatusLine ctermfg=52 guifg=#5f0000
 
 set history=100
 set mouse=""                                      " Disable mouse
@@ -51,19 +51,24 @@ highlight Boolean ctermfg=33 guifg=#0087ff
 highlight Float ctermfg=31 guifg=#0087af
 
 " Identifiers: Function
-highlight Identifier cterm=NONE ctermfg=226 guifg=#ffff00
+highlight Identifier ctermfg=226 guifg=#ffff00
 
 " Statements: Conditional, Repeat, Label, Operator, Keyword, Exception
 highlight Statement ctermfg=33 guifg=#0087ff
+highlight Label cterm=bold ctermfg=69 ctermbg=52 gui=bold guifg=#5f87ff guibg=#5f0000
+highlight Exception cterm=bold ctermfg=162 gui=bold guifg=#d70087
 
 " PreProcs: Include, Define, Macro, PreCondit
-highlight PreProc ctermfg=93 guifg=#8700ff
+highlight PreProc cterm=bold ctermfg=93 gui=bold guifg=#8700ff
 
 " Types: StorageClass, Structure, Typedef
 highlight Type ctermfg=125 guifg=#af005f
 
 " Specials: SpecialChar, Tag, Delimiter, SpecialComment, Debug
-highlight Special ctermfg=160 guifg=#d70000
+highlight Special cterm=bold ctermfg=160 gui=bold guifg=#d70000
+
+" TODO
+highlight Todo cterm=bold ctermfg=237 ctermbg=220 gui=bold guifg=#3a3a3a guibg=#ffd700
 
 " Search
 highlight Search ctermfg=141 guifg=#af87ff ctermbg=58 guibg=#5f5f00
