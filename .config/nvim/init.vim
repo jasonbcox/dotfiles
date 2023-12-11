@@ -92,8 +92,3 @@ highlight Template ctermfg=14 guifg=#00ffff
 
 
 syntax enable
-
-if filereadable(glob("~/.vimrc.extras"))
-  source ~/.vimrc.extras
-endif
-
