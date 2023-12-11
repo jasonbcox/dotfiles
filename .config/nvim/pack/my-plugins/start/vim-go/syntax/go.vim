@@ -3,89 +3,24 @@
 " license that can be found in the LICENSE file.
 "
 " go.vim: Vim syntax file for Go.
-"
-" Options:
-"   There are some options for customizing the highlighting; the recommended
-"   settings are the default values, but you can write:
-"     let OPTION_NAME = 0
-"   in your ~/.vimrc file to disable particular options. You can also write:
-"     let OPTION_NAME = 1
-"   to enable particular options.
-"   At present, all options default to on, except highlight of:
-"   functions, methods and structs.
-"
-"   - go_highlight_array_whitespace_error
-"     Highlights white space after "[]".
-"   - go_highlight_chan_whitespace_error
-"     Highlights white space around the communications operator that don't follow
-"     the standard style.
-"   - go_highlight_extra_types
-"     Highlights commonly used library types (io.Reader, etc.).
-"   - go_highlight_space_tab_error
-"     Highlights instances of tabs following spaces.
-"   - go_highlight_trailing_whitespace_error
-"     Highlights trailing white space.
-"   - go_highlight_string_spellcheck
-"     Specifies that strings should be spell checked
 
 " Quit when a (custom) syntax file was already loaded
 if exists("b:current_syntax")
   finish
 endif
 
-if !exists("g:go_highlight_array_whitespace_error")
-  let g:go_highlight_array_whitespace_error = 1
-endif
-
-if !exists("g:go_highlight_chan_whitespace_error")
-  let g:go_highlight_chan_whitespace_error = 1
-endif
-
-if !exists("g:go_highlight_extra_types")
-  let g:go_highlight_extra_types = 1
-endif
-
-if !exists("g:go_highlight_space_tab_error")
-  let g:go_highlight_space_tab_error = 1
-endif
-
-if !exists("g:go_highlight_trailing_whitespace_error")
-  let g:go_highlight_trailing_whitespace_error = 1
-endif
-
-if !exists("g:go_highlight_operators")
-	let g:go_highlight_operators = 0
-endif
-
-if !exists("g:go_highlight_functions")
-	let g:go_highlight_functions = 0
-endif
-
-if !exists("g:go_highlight_methods")
-	let g:go_highlight_methods = 0
-endif
-
-if !exists("g:go_highlight_structs")
-	let g:go_highlight_structs = 0
-endif
-
-if !exists("g:go_highlight_build_constraints")
-    let g:go_highlight_build_constraints = 0
-endif
-
-if !exists("g:go_highlight_string_spellcheck")
-  let g:go_highlight_string_spellcheck = 1
-endif
-
 syn case match
 
-syn keyword     goDirective         package import
-syn keyword     goDeclaration       var const type
-syn keyword     goDeclType          struct interface
+syn keyword     goPackage           package
+syn keyword     goImport            import    contained
+syn keyword     goVar               var       contained
+syn keyword     goConst             const     contained
 
-hi def link     goDirective         Statement
+hi def link     goPackage           Statement
+hi def link     goImport            Statement
+hi def link     goVar               Keyword
+hi def link     goConst             Keyword
 hi def link     goDeclaration       Keyword
-hi def link     goDeclType          Keyword
 
 " Keywords within functions
 syn keyword     goStatement         defer go goto return break continue fallthrough
@@ -99,7 +34,7 @@ hi def link     goLabel             Label
 hi def link     goRepeat            Repeat
 
 " Predefined types
-syn keyword     goType              chan map bool string error
+syn keyword     goType              chan map bool string error any comparable
 syn keyword     goSignedInts        int int8 int16 int32 int64 rune
 syn keyword     goUnsignedInts      byte uint uint8 uint16 uint32 uint64 uintptr
 syn keyword     goFloats            float32 float64
@@ -111,27 +46,40 @@ hi def link     goUnsignedInts      Type
 hi def link     goFloats            Type
 hi def link     goComplexes         Type
 
-" Treat func specially: it's a declaration at the start of a line, but a type
-" elsewhere. Order matters here.
-syn match       goDeclaration       /\<func\>/
-
-
 " Predefined functions and values
-syn keyword     goBuiltins          append cap close complex copy delete imag len
-syn keyword     goBuiltins          make new panic print println real recover
-syn keyword     goBoolean           iota true false nil
+syn keyword     goBuiltins                 append cap clear close complex copy delete imag len
+syn keyword     goBuiltins                 make min max new panic print println real recover
+syn keyword     goBoolean                  true false
+syn keyword     goPredefinedIdentifiers    nil iota
 
-hi def link     goBuiltins          Keyword
-hi def link     goBoolean           Boolean
+hi def link     goBuiltins                 Identifier
+hi def link     goPredefinedIdentifiers    Constant
+" Boolean links to Constant by default by vim: goBoolean and goPredefinedIdentifiers
+" will be highlighted the same, but having the separate allows users to have
+" separate highlighting for them if they desire.
+hi def link     goBoolean                  Boolean
 
 " Comments; their contents
 syn keyword     goTodo              contained TODO FIXME XXX BUG
 syn cluster     goCommentGroup      contains=goTodo
-syn region      goComment           start="/\*" end="\*/" contains=@goCommentGroup,@Spell
-syn region      goComment           start="//" end="$" contains=@goCommentGroup,@Spell
+
+syn region      goComment           start="//" end="$" contains=goGenerate,@goCommentGroup,@Spell
+if go#config#FoldEnable('comment')
+  syn region    goComment           start="/\*" end="\*/" contains=@goCommentGroup,@Spell fold
+  syn match     goComment           "\v(^\s*//.*\n)+" contains=goGenerate,@goCommentGroup,@Spell fold
+else
+  syn region    goComment           start="/\*" end="\*/" contains=@goCommentGroup,@Spell
+endif
 
 hi def link     goComment           Comment
 hi def link     goTodo              Todo
+
+if go#config#HighlightGenerateTags()
+  syn match       goGenerateVariables contained /\%(\$GOARCH\|\$GOOS\|\$GOFILE\|\$GOLINE\|\$GOPACKAGE\|\$DOLLAR\)\>/
+  syn region      goGenerate          start="^\s*//go:generate" end="$" contains=goGenerateVariables
+  hi def link     goGenerate          PreProc
+  hi def link     goGenerateVariables Special
+endif
 
 " Go escapes
 syn match       goEscapeOctal       display contained "\\[0-7]\{3}"
@@ -151,18 +99,36 @@ hi def link     goEscapeError       Error
 
 " Strings and their contents
 syn cluster     goStringGroup       contains=goEscapeOctal,goEscapeC,goEscapeX,goEscapeU,goEscapeBigU,goEscapeError
-if g:go_highlight_string_spellcheck != 0
+if go#config#HighlightStringSpellcheck()
   syn region      goString            start=+"+ skip=+\\\\\|\\"+ end=+"+ contains=@goStringGroup,@Spell
   syn region      goRawString         start=+`+ end=+`+ contains=@Spell
 else
   syn region      goString            start=+"+ skip=+\\\\\|\\"+ end=+"+ contains=@goStringGroup
   syn region      goRawString         start=+`+ end=+`+
 endif
-syn match       goFormatSpecifier   /%[-#0 +]*\%(\*\|\d\+\)\=\%(\.\%(\*\|\d\+\)\)*[vTtbcdoqxXUeEfgGsp]/ contained containedin=goString
 
+syn match       goImportString      /^\%(\s\+\|import \)\(\h\w* \)\?\zs"[^"]\+"$/ contained containedin=goImport
+
+if go#config#HighlightFormatStrings()
+  " [n] notation is valid for specifying explicit argument indexes
+  " 1. Match a literal % not preceded by a %.
+  " 2. Match any number of -, #, 0, space, or +
+  " 3. Match * or [n]* or any number or nothing before a .
+  " 4. Match * or [n]* or any number or nothing after a .
+  " 5. Match [n] or nothing before a verb
+  " 6. Match a formatting verb
+  syn match       goFormatSpecifier   /\
+        \%([^%]\%(%%\)*\)\
+        \@<=%[-#0 +]*\
+        \%(\%(\%(\[\d\+\]\)\=\*\)\|\d\+\)\=\
+        \%(\.\%(\%(\%(\[\d\+\]\)\=\*\)\|\d\+\)\=\)\=\
+        \%(\[\d\+\]\)\=[vTtbcdoqxXUeEfFgGspw]/ contained containedin=goString,goRawString
+  hi def link     goFormatSpecifier   goSpecialString
+endif
+
+hi def link     goImportString      String
 hi def link     goString            String
 hi def link     goRawString         String
-hi def link 	goFormatSpecifier   goSpecialString
 
 " Characters; their contents
 syn cluster     goCharacterGroup    contains=goEscapeOctal,goEscapeC,goEscapeX,goEscapeU,goEscapeBigU
@@ -171,65 +137,152 @@ syn region      goCharacter         start=+'+ skip=+\\\\\|\\'+ end=+'+ contains=
 hi def link     goCharacter         Character
 
 " Regions
-syn region      goBlock             start="{" end="}" transparent fold
 syn region      goParen             start='(' end=')' transparent
+if go#config#FoldEnable('block')
+  syn region    goBlock             start="{" end="}" transparent fold
+else
+  syn region    goBlock             start="{" end="}" transparent
+endif
+
+" import
+if go#config#FoldEnable('import')
+  syn region    goImport            start='import (' end=')' transparent fold contains=goImport,goImportString,goComment
+  syn match     goImport            /^import ()/ transparent fold contains=goImport
+else
+  syn region    goImport            start='import (' end=')' transparent contains=goImport,goImportString,goComment
+  syn match     goImport            /^import ()/ transparent contains=goImport
+endif
+
+" var, const
+if go#config#FoldEnable('varconst')
+  syn region    goVar               start='var ('   end='^\s*)$' transparent fold
+                                  \ contains=ALLBUT,goParen,goBlock,goFunction,goTypeName,goReceiverType,goReceiverVar,goParamName,goParamType,goSimpleParams,goPointerOperator
+  syn match     goVar               /var ()/ transparent fold
+                                  \ contains=goVar
+  syn region    goConst             start='const (' end='^\s*)$' transparent fold
+                                  \ contains=ALLBUT,goParen,goBlock,goFunction,goTypeName,goReceiverType,goReceiverVar,goParamName,goParamType,goSimpleParams,goPointerOperator
+  syn match     goConst             /const ()/ transparent fold
+                                  \ contains=goConst
+else
+  syn region    goVar               start='var ('   end='^\s*)$' transparent
+                                  \ contains=ALLBUT,goParen,goBlock,goFunction,goTypeName,goReceiverType,goReceiverVar,goParamName,goParamType,goSimpleParams,goPointerOperator
+  syn match     goVar               /var ()/ transparent
+                                  \ contains=goVar
+  syn region    goConst             start='const (' end='^\s*)$' transparent
+                                  \ contains=ALLBUT,goParen,goBlock,goFunction,goTypeName,goReceiverType,goReceiverVar,goParamName,goParamType,goSimpleParams,goPointerOperator
+  syn match     goConst             /const ()/ transparent
+                                  \ contains=goConst
+endif
+
+" Single-line var, const, and import.
+syn match       goSingleDecl        /\%(import\|var\|const\) [^(]\@=/ contains=goImport,goVar,goConst
 
 " Integers
-syn match       goDecimalInt        "\<\d\+\([Ee]\d\+\)\?\>"
-syn match       goHexadecimalInt    "\<0x\x\+\>"
-syn match       goOctalInt          "\<0\o\+\>"
-syn match       goOctalError        "\<0\o*[89]\d*\>"
+syn match       goDecimalInt        "\<-\=\%(0\|\%(\d\|\d_\d\)\+\)\>"
+syn match       goHexadecimalInt    "\<-\=0[xX]_\?\%(\x\|\x_\x\)\+\>"
+syn match       goOctalInt          "\<-\=0[oO]\?_\?\%(\o\|\o_\o\)\+\>"
+syn match       goBinaryInt         "\<-\=0[bB]_\?\%([01]\|[01]_[01]\)\+\>"
 
 hi def link     goDecimalInt        Integer
+hi def link     goDecimalError      Error
 hi def link     goHexadecimalInt    Integer
+hi def link     goHexadecimalError  Error
 hi def link     goOctalInt          Integer
+hi def link     goOctalError        Error
+hi def link     goBinaryInt         Integer
+hi def link     goBinaryError       Error
 hi def link     Integer             Number
 
 " Floating point
-syn match       goFloat             "\<\d\+\.\d*\([Ee][-+]\d\+\)\?\>"
-syn match       goFloat             "\<\.\d\+\([Ee][-+]\d\+\)\?\>"
-syn match       goFloat             "\<\d\+[Ee][-+]\d\+\>"
+"float_lit         = decimal_float_lit | hex_float_lit .
+"
+"decimal_float_lit = decimal_digits "." [ decimal_digits ] [ decimal_exponent ] |
+"                    decimal_digits decimal_exponent |
+"                    "." decimal_digits [ decimal_exponent ] .
+"decimal_exponent  = ( "e" | "E" ) [ "+" | "-" ] decimal_digits .
+"
+"hex_float_lit     = "0" ( "x" | "X" ) hex_mantissa hex_exponent .
+"hex_mantissa      = [ "_" ] hex_digits "." [ hex_digits ] |
+"                    [ "_" ] hex_digits |
+"                    "." hex_digits .
+"hex_exponent      = ( "p" | "P" ) [ "+" | "-" ] decimal_digits .
+" decimal floats with a decimal point
+syn match       goFloat             "\<-\=\%(0\|\%(\d\|\d_\d\)\+\)\.\%(\%(\%(\d\|\d_\d\)\+\)\=\%([Ee][-+]\=\%(\d\|\d_\d\)\+\)\=\>\)\="
+syn match       goFloat             "\s\zs-\=\.\%(\d\|\d_\d\)\+\%(\%([Ee][-+]\=\%(\d\|\d_\d\)\+\)\>\)\="
+" decimal floats without a decimal point
+syn match       goFloat             "\<-\=\%(0\|\%(\d\|\d_\d\)\+\)[Ee][-+]\=\%(\d\|\d_\d\)\+\>"
+" hexadecimal floats with a decimal point
+syn match       goHexadecimalFloat  "\<-\=0[xX]\%(_\x\|\x\)\+\.\%(\%(\x\|\x_\x\)\+\)\=\%([Pp][-+]\=\%(\d\|\d_\d\)\+\)\=\>"
+syn match       goHexadecimalFloat  "\<-\=0[xX]\.\%(\x\|\x_\x\)\+\%([Pp][-+]\=\%(\d\|\d_\d\)\+\)\=\>"
+" hexadecimal floats without a decimal point
+syn match       goHexadecimalFloat  "\<-\=0[xX]\%(_\x\|\x\)\+[Pp][-+]\=\%(\d\|\d_\d\)\+\>"
 
 hi def link     goFloat             Float
+hi def link     goHexadecimalFloat  Float
 
 " Imaginary literals
-syn match       goImaginary         "\<\d\+i\>"
-syn match       goImaginary         "\<\d\+\.\d*\([Ee][-+]\d\+\)\?i\>"
-syn match       goImaginary         "\<\.\d\+\([Ee][-+]\d\+\)\?i\>"
-syn match       goImaginary         "\<\d\+[Ee][-+]\d\+i\>"
+syn match       goImaginaryDecimal        "\<-\=\%(0\|\%(\d\|\d_\d\)\+\)i\>"
+syn match       goImaginaryHexadecimal    "\<-\=0[xX]_\?\%(\x\|\x_\x\)\+i\>"
+syn match       goImaginaryOctal          "\<-\=0[oO]\?_\?\%(\o\|\o_\o\)\+i\>"
+syn match       goImaginaryBinary         "\<-\=0[bB]_\?\%([01]\|[01]_[01]\)\+i\>"
 
-hi def link     goImaginary         Number
+" imaginary decimal floats with a decimal point
+syn match       goImaginaryFloat             "\<-\=\%(0\|\%(\d\|\d_\d\)\+\)\.\%(\%(\%(\d\|\d_\d\)\+\)\=\%([Ee][-+]\=\%(\d\|\d_\d\)\+\)\=\)\=i\>"
+syn match       goImaginaryFloat             "\s\zs-\=\.\%(\d\|\d_\d\)\+\%([Ee][-+]\=\%(\d\|\d_\d\)\+\)\=i\>"
+" imaginary decimal floats without a decimal point
+syn match       goImaginaryFloat             "\<-\=\%(0\|\%(\d\|\d_\d\)\+\)[Ee][-+]\=\%(\d\|\d_\d\)\+i\>"
+" imaginary hexadecimal floats with a decimal point
+syn match       goImaginaryHexadecimalFloat  "\<-\=0[xX]\%(_\x\|\x\)\+\.\%(\%(\x\|\x_\x\)\+\)\=\%([Pp][-+]\=\%(\d\|\d_\d\)\+\)\=i\>"
+syn match       goImaginaryHexadecimalFloat  "\<-\=0[xX]\.\%(\x\|\x_\x\)\+\%([Pp][-+]\=\%(\d\|\d_\d\)\+\)\=i\>"
+" imaginary hexadecimal floats without a decimal point
+syn match       goImaginaryHexadecimalFloat  "\<-\=0[xX]\%(_\x\|\x\)\+[Pp][-+]\=\%(\d\|\d_\d\)\+i\>"
+
+hi def link     goImaginaryDecimal             Number
+hi def link     goImaginaryHexadecimal         Number
+hi def link     goImaginaryOctal               Number
+hi def link     goImaginaryBinary              Number
+hi def link     goImaginaryFloat               Float
+hi def link     goImaginaryHexadecimalFloat    Float
 
 " Spaces after "[]"
-if g:go_highlight_array_whitespace_error != 0
-  syn match goSpaceError display "\(\[\]\)\@<=\s\+"
+if go#config#HighlightArrayWhitespaceError()
+  syn match goSpaceError display "\%(\[\]\)\@<=\s\+"
 endif
 
 " Spacing errors around the 'chan' keyword
-if g:go_highlight_chan_whitespace_error != 0
+if go#config#HighlightChanWhitespaceError()
   " receive-only annotation on chan type
-  syn match goSpaceError display "\(<-\)\@<=\s\+\(chan\>\)\@="
+  "
+  " \(\<chan\>\)\@<!<-  (only pick arrow when it doesn't come after a chan)
+  " this prevents picking up 'chan<- chan<-' but not '<- chan'
+  syn match goSpaceError display "\%(\%(\<chan\>\)\@<!<-\)\@<=\s\+\%(\<chan\>\)\@="
+
   " send-only annotation on chan type
-  syn match goSpaceError display "\(\<chan\)\@<=\s\+\(<-\)\@="
+  "
+  " \(<-\)\@<!\<chan\>  (only pick chan when it doesn't come after an arrow)
+  " this prevents picking up '<-chan <-chan' but not 'chan <-'
+  syn match goSpaceError display "\%(\%(<-\)\@<!\<chan\>\)\@<=\s\+\%(<-\)\@="
+
   " value-ignoring receives in a few contexts
-  syn match goSpaceError display "\(\(^\|[={(,;]\)\s*<-\)\@<=\s\+"
+  syn match goSpaceError display "\%(\%(^\|[={(,;]\)\s*<-\)\@<=\s\+"
 endif
 
 " Extra types commonly seen
-if g:go_highlight_extra_types != 0
-  syn match goExtraType /\<bytes\.\(Buffer\)\>/
-  syn match goExtraType /\<io\.\(Reader\|ReadSeeker\|ReadWriter\|ReadCloser\|ReadWriteCloser\|Writer\|WriteCloser\|Seeker\)\>/
-  syn match goExtraType /\<reflect\.\(Kind\|Type\|Value\)\>/
+if go#config#HighlightExtraTypes()
+  syn match goExtraType /\<bytes\.\%(Buffer\)\>/
+  syn match goExtraType /\<context\.\%(Context\)\>/
+  syn match goExtraType /\<io\.\%(Reader\|ReadSeeker\|ReadWriter\|ReadCloser\|ReadWriteCloser\|Writer\|WriteCloser\|Seeker\)\>/
+  syn match goExtraType /\<reflect\.\%(Kind\|Type\|Value\)\>/
   syn match goExtraType /\<unsafe\.Pointer\>/
 endif
 
 " Space-tab error
-if g:go_highlight_space_tab_error != 0
+if go#config#HighlightSpaceTabError()
   syn match goSpaceError display " \+\t"me=e-1
 endif
 
 " Trailing white space error
-if g:go_highlight_trailing_whitespace_error != 0
+if go#config#HighlightTrailingWhitespaceError()
   syn match goSpaceError display excludenl "\s\+$"
 endif
 
@@ -244,59 +297,215 @@ hi def link     goSpaceError        Error
 syn keyword     goTodo              contained NOTE
 hi def link     goTodo              Todo
 
+syn match goVarArgs /\.\.\./
 
 " Operators;
-if g:go_highlight_operators != 0
-	" match single-char operators:          - + % < > ! & | ^ * =
-	" and corresponding two-char operators: -= += %= <= >= != &= |= ^= *= ==
-	syn match goOperator /[-+%<>!&|^*=]=\?/
-	" match / and /=
-	syn match goOperator /\/\%(=\|\ze[^/*]\)/
-	" match two-char operators:               << >> &^
-	" and corresponding three-char operators: <<= >>= &^=
-	syn match goOperator /\%(<<\|>>\|&^\)=\?/
-	" match remaining two-char operators: := && || <- ++ --
-	syn match goOperator /:=\|||\|<-\|++\|--/
-	" match ...
-	syn match goOperator /\.\.\./
+if go#config#HighlightOperators()
+  " match single-char operators:          - + % < > ! & | ^ * =
+  " and corresponding two-char operators: -= += %= <= >= != &= |= ^= *= ==
+  syn match goOperator /[-+%<>!&|^*=]=\?/
+  " match / and /=
+  syn match goOperator /\/\%(=\|\ze[^/*]\)/
+  " match two-char operators:               << >> &^
+  " and corresponding three-char operators: <<= >>= &^=
+  syn match goOperator /\%(<<\|>>\|&^\)=\?/
+  " match remaining two-char operators: := && || <- ++ --
+  syn match goOperator /:=\|||\|<-\|++\|--/
+  " match ~
+  syn match goOperator /\~/
+  " match ...
+
+  hi def link     goPointerOperator   goOperator
+  hi def link     goVarArgs           goOperator
 endif
-hi def link     goOperator					Operator
+hi def link     goOperator          Operator
+
+"                               -> type constraint opening bracket
+"                               |-> start non-counting group
+"                               ||  -> any word character
+"                               ||  |  -> at least one, as many as possible
+"                               ||  |  |    -> start non-counting group
+"                               ||  |  |    |   -> match ~
+"                               ||  |  |    |   | -> at most once
+"                               ||  |  |    |   | |     -> allow a slice type
+"                               ||  |  |    |   | |     |      -> any word character
+"                               ||  |  |    |   | |     |      | -> start a non-counting group
+"                               ||  |  |    |   | |     |      | | -> that matches word characters and |
+"                               ||  |  |    |   | |     |      | | |     -> close the non-counting group
+"                               ||  |  |    |   | |     |      | | |     | -> close the non-counting group
+"                               ||  |  |    |   | |     |      | | |     | |-> any number of matches
+"                               ||  |  |    |   | |     |      | | |     | || -> start a non-counting group
+"                               ||  |  |    |   | |     |      | | |     | || | -> a comma and whitespace
+"                               ||  |  |    |   | |     |      | | |     | || | |      -> at most once
+"                               ||  |  |    |   | |     |      | | |     | || | |      | -> close the non-counting group
+"                               ||  |  |    |   | |     |      | | |     | || | |      | | -> at least one of those non-counting groups, as many as possible
+"                               ||  |  |    |   | | --------   | | |     | || | |      | | | -> type constraint closing bracket
+"                               ||  |  |    |   | ||        |  | | |     | || | |      | | | |
+syn match goTypeParams        /\[\%(\w\+\s\+\%(\~\?\%(\[]\)\?\w\%(\w\||\)\)*\%(,\s*\)\?\)\+\]/ nextgroup=goSimpleParams,goDeclType contained
 
 " Functions;
-if g:go_highlight_functions != 0
-	syn match goFunction							/\(func\s\+\)\@<=\w\+\((\)\@=/
-	syn match goFunction							/\()\s\+\)\@<=\w\+\((\)\@=/
+if go#config#HighlightFunctions() || go#config#HighlightFunctionParameters()
+  syn match goDeclaration       /\<func\>/ nextgroup=goReceiver,goFunction,goSimpleParams skipwhite skipnl
+  syn match goReceiverDecl      /(\s*\zs\%(\%(\w\+\s\+\)\?\*\?\w\+\%(\[\%(\%(\[\]\)\?\w\+\%(,\s*\)\?\)\+\]\)\?\)\ze\s*)/ contained contains=goReceiverVar,goReceiverType,goPointerOperator
+  syn match goReceiverVar       /\w\+\ze\s\+\%(\w\|\*\)/ nextgroup=goPointerOperator,goReceiverType skipwhite skipnl contained
+  syn match goPointerOperator   /\*/ nextgroup=goReceiverType contained skipwhite skipnl
+  syn match goFunction          /\w\+/ nextgroup=goSimpleParams,goTypeParams contained skipwhite skipnl
+  syn match goReceiverType      /\w\+\%(\[\%(\%(\[\]\)\?\w\+\%(,\s*\)\?\)\+\]\)\?\ze\s*)/ contained
+  if go#config#HighlightFunctionParameters()
+    syn match goSimpleParams      /(\%(\w\|\_s\|[*\.\[\],\{\}<>-]\)*)/ contained contains=goParamName,goType nextgroup=goFunctionReturn skipwhite skipnl
+    syn match goFunctionReturn   /(\%(\w\|\_s\|[*\.\[\],\{\}<>-]\)*)/ contained contains=goParamName,goType skipwhite skipnl
+    syn match goParamName        /\w\+\%(\s*,\s*\w\+\)*\ze\s\+\%(\w\|\.\|\*\|\[\)/ contained nextgroup=goParamType skipwhite skipnl
+    syn match goParamType        /\%([^,)]\|\_s\)\+,\?/ contained nextgroup=goParamName skipwhite skipnl
+                          \ contains=goVarArgs,goType,goSignedInts,goUnsignedInts,goFloats,goComplexes,goDeclType,goBlock
+    hi def link   goReceiverVar    goParamName
+    hi def link   goParamName      Identifier
+  endif
+  syn match goReceiver          /(\s*\%(\w\+\s\+\)\?\*\?\s*\w\+\%(\[\%(\%(\[\]\)\?\w\+\%(,\s*\)\?\)\+\]\)\?\s*)\ze\s*\w/ contained nextgroup=goFunction contains=goReceiverDecl skipwhite skipnl
+else
+  syn keyword goDeclaration func
 endif
-hi def link     goFunction					Function
+hi def link     goFunction          Function
 
-" Methods;
-if g:go_highlight_methods != 0
-	syn match goMethod								/\(\.\)\@<=\w\+\((\)\@=/
+" Function calls;
+if go#config#HighlightFunctionCalls()
+  syn match goFunctionCall      /\w\+\ze\%(\[\%(\%(\[]\)\?\w\+\(,\s*\)\?\)\+\]\)\?(/ contains=goBuiltins,goDeclaration
 endif
-hi def link     goMethod						Type
+hi def link     goFunctionCall      Type
 
-" Structs;
-if g:go_highlight_structs != 0
-	syn match goStruct								/\(.\)\@<=\w\+\({\)\@=/
-	syn match goStructDef							/\(type\s\+\)\@<=\w\+\(\s\+struct\s\+{\)\@=/
+" Fields;
+if go#config#HighlightFields()
+  " 1. Match a sequence of word characters coming after a '.'
+  " 2. Require the following but dont match it: ( \@= see :h E59)
+  "    - The symbols: / - + * %   OR
+  "    - The symbols: [] {} <> )  OR
+  "    - The symbols: \n \r space OR
+  "    - The symbols: , : .
+  " 3. Have the start of highlight (hs) be the start of matched
+  "    pattern (s) offsetted one to the right (+1) (see :h E401)
+  syn match       goField   /\.\w\+\
+        \%(\%([\/\-\+*%]\)\|\
+        \%([\[\]{}<\>\)]\)\|\
+        \%([\!=\^|&]\)\|\
+        \%([\n\r\ ]\)\|\
+        \%([,\:.]\)\)\@=/hs=s+1
 endif
-hi def link     goStruct						Function
-hi def link     goStructDef         Function
+hi def link    goField              Identifier
+
+" Structs & Interfaces;
+if go#config#HighlightTypes()
+  syn match goTypeConstructor      /\<\w\+{\@=/
+  syn match goTypeDecl             /\<type\>/ nextgroup=goTypeName skipwhite skipnl
+  syn match goTypeName             /\w\+/ contained nextgroup=goDeclType,goTypeParams skipwhite skipnl
+  syn match goDeclType             /\<\%(interface\|struct\)\>/ skipwhite skipnl
+  hi def link     goReceiverType      Type
+else
+  syn keyword goDeclType           struct interface
+  syn keyword goDeclaration        type
+endif
+hi def link     goTypeConstructor   Type
+hi def link     goTypeName          Type
+hi def link     goTypeDecl          Keyword
+hi def link     goDeclType          Keyword
+
+" Variable Assignments
+if go#config#HighlightVariableAssignments()
+  syn match goVarAssign /\v[_.[:alnum:]]+(,\s*[_.[:alnum:]]+)*\ze(\s*([-^+|^\/%&]|\*|\<\<|\>\>|\&\^)?\=[^=])/
+  hi def link   goVarAssign         Special
+endif
+
+" Variable Declarations
+if go#config#HighlightVariableDeclarations()
+  syn match goVarDefs /\v\w+(,\s*\w+)*\ze(\s*:\=)/
+  hi def link   goVarDefs           Special
+endif
 
 " Build Constraints
-if g:go_highlight_build_constraints != 0
-    syn keyword goBuildOs           contained ignore cgo android darwin dragonfly freebsd linux nacl netbsd openbsd plan9 solaris windows
-    syn keyword goBuildArch         contained 386 amd64 amd64p32 arm
-    syn match   goBuildDirective    display contained "+build"
-    syn region  goBuildComment      start="//\s*+build" end="$" contains=goBuildDirective,goBuildOs,goBuildArch
-    syn region  goBuildComment      start="/\*\s*+build" end="\*/" contains=goBuildDirective,goBuildOs,goBuildArch
+if go#config#HighlightBuildConstraints()
+  syn match   goBuildKeyword      display contained "+build\|go:build"
+  " Highlight the known values of GOOS, GOARCH, and other +build options.
+  syn keyword goBuildDirectives   contained
+        \ android darwin dragonfly freebsd linux nacl netbsd openbsd plan9
+        \ solaris windows 386 amd64 amd64p32 arm armbe arm64 arm64be ppc64
+        \ ppc64le mips mipsle mips64 mips64le mips64p32 mips64p32le ppc
+        \ s390 s390x sparc sparc64 cgo ignore race
+
+  " Other words in the build directive are build tags not listed above, so
+  " avoid highlighting them as comments by using a matchgroup just for the
+  " start of the comment.
+  " The rs=s+2 option lets the \s*+build portion be part of the inner region
+  " instead of the matchgroup so it will be highlighted as a goBuildKeyword.
+  syn region  goBuildComment      matchgroup=goBuildCommentStart
+        \ start="//\(\s*+build\s\|go:build\)"rs=s+2 end="$"
+        \ contains=goBuildKeyword,goBuildDirectives
+  hi def link goBuildCommentStart Comment
+  hi def link goBuildDirectives   Type
+  hi def link goBuildKeyword      PreProc
 endif
 
-hi def link     goBuildComment      Comment
-hi def link     goBuildOs           Type
-hi def link     goBuildArch         Type
-hi def link     goBuildDirective    PreProc
+if go#config#HighlightBuildConstraints() || go#config#FoldEnable('package_comment')
+  " One or more line comments that are followed immediately by a "package"
+  " declaration are treated like package documentation, so these must be
+  " matched as comments to avoid looking like working build constraints.
+  " The he, me, and re options let the "package" itself be highlighted by
+  " the usual rules.
+  exe 'syn region  goPackageComment    start=/\v(\/\/.*\n)+\s*package/'
+        \ . ' end=/\v\n\s*package/he=e-7,me=e-7,re=e-7'
+        \ . ' contains=@goCommentGroup,@Spell'
+        \ . (go#config#FoldEnable('package_comment') ? ' fold' : '')
+  exe 'syn region  goPackageComment    start=/\v^\s*\/\*.*\n(.*\n)*\s*\*\/\npackage/'
+        \ . ' end=/\v\*\/\n\s*package/he=e-7,me=e-7,re=e-7'
+        \ . ' contains=@goCommentGroup,@Spell'
+        \ . (go#config#FoldEnable('package_comment') ? ' fold' : '')
+  hi def link goPackageComment    Comment
+endif
 
+" :GoCoverage commands
+hi def link goCoverageNormalText Comment
+
+function! s:hi()
+  hi def link goSameId Search
+  hi def link goDiagnosticError SpellBad
+  hi def link goDiagnosticWarning SpellRare
+
+  " TODO(bc): is it appropriate to define text properties in a syntax file?
+  " The highlight groups need to be defined before the text properties types
+  " are added, and when users have syntax enabled in their vimrc after
+  " filetype plugin on, the highlight groups won't be defined when
+  " ftplugin/go.vim is executed when the first go file is opened.
+  " See https://github.com/fatih/vim-go/issues/2658.
+  if has('textprop')
+    if empty(prop_type_get('goSameId'))
+      call prop_type_add('goSameId', {'highlight': 'goSameId'})
+    endif
+    if empty(prop_type_get('goDiagnosticError'))
+      call prop_type_add('goDiagnosticError', {'highlight': 'goDiagnosticError'})
+    endif
+    if empty(prop_type_get('goDiagnosticWarning'))
+      call prop_type_add('goDiagnosticWarning', {'highlight': 'goDiagnosticWarning'})
+    endif
+  endif
+
+  hi def link goDeclsFzfKeyword        Keyword
+  hi def link goDeclsFzfFunction       Function
+  hi def link goDeclsFzfSpecialComment SpecialComment
+  hi def link goDeclsFzfComment        Comment
+
+  " :GoCoverage commands
+  hi def      goCoverageCovered    ctermfg=green guifg=#A6E22E
+  hi def      goCoverageUncover    ctermfg=red guifg=#F92672
+
+  " :GoDebug commands
+  if go#config#HighlightDebug()
+    hi def GoDebugBreakpoint term=standout ctermbg=117 ctermfg=0 guibg=#BAD4F5  guifg=Black
+    hi def GoDebugCurrent term=reverse  ctermbg=12  ctermfg=7 guibg=DarkBlue guifg=White
+  endif
+endfunction
+
+augroup vim-go-hi
+  autocmd!
+  autocmd ColorScheme * call s:hi()
+augroup end
+call s:hi()
 
 " Search backwards for a global declaration to start processing the syntax.
 "syn sync match goSync grouphere NONE /^\(const\|var\|type\|func\)\>/
@@ -306,3 +515,5 @@ hi def link     goBuildDirective    PreProc
 syn sync minlines=500
 
 let b:current_syntax = "go"
+
+" vim: sw=2 ts=2 et
