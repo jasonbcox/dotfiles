@@ -89,6 +89,3 @@ highlight Namespace ctermfg=160 guifg=#df0000
 
 " Template brackets
 highlight Template ctermfg=14 guifg=#00ffff
-
-
-syntax enable
