@@ -80,9 +80,12 @@ highlight MatchParen ctermfg=11 guifg=#ffff00 ctermbg=5 guibg=#800080
 " Line numbers
 highlight LineNr ctermfg=130 guifg=#af5f00
 
-highlight NonText ctermfg=248 guifg=#a8a8a8
+" Whitespace characters as determined by listchars
+highlight Whitespace ctermfg=244 guifg=#808080
+" EndOfBuffer and other characters that do not actually exist in the text
+highlight NonText cterm=bold ctermfg=250 gui=bold guifg=#bcbcbc
 
-" Custom highlight groups
+" Custom highlight groups (see /syntax)
 
 " Namespaces
 highlight Namespace ctermfg=160 guifg=#df0000
