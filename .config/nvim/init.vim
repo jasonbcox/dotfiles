@@ -83,6 +83,10 @@ highlight NonText cterm=bold ctermfg=250 gui=bold guifg=#bcbcbc
 " Visual mode selection
 highlight Visual ctermbg=238 guibg=#444444
 
+" Vim command menu
+highlight Pmenu ctermbg=52 guibg=#5f0000
+highlight PmenuSel ctermbg=124 guibg=#af0000
+
 " Custom highlight groups (see /syntax)
 
 " Namespaces
