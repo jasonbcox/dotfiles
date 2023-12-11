@@ -1,5 +1,8 @@
 #!/bin/sh - Just for comment colors in vim
+
+# By default, do not commit config files to dotfiles. There is too much garbage here.
 *
 
+# Explicitly commit these configs to dotfiles
 !/nvim/
 !/nvim/**

@@ -20,9 +20,6 @@ set expandtab tabstop=2 shiftwidth=2              " Set indentation width and us
 " are mostly useless anyway.
 set modelines=0
 
-" Pathogen - vim plugin system (see github.com/tpope/vim-pathogen
-call pathogen#infect()
-
 let g:vim_markdown_folding_disabled=1             " Disable code collapsing
 
 filetype plugin on
