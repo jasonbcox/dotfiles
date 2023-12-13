@@ -102,3 +102,5 @@ highlight Template ctermfg=14 guifg=#00ffff
 
 " Common operators
 highlight Operators cterm=bold ctermfg=212 gui=bold guifg=#ff87d7
+
+lua require('nvim-colorizer.lua.colorizer').setup()
