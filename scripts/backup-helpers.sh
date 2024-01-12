@@ -23,17 +23,17 @@ function archive-web-filetype() {
 
   if [ "$#" -eq 1 ]; then
     # Basic case. Download everything recursively from the URL (from any domain!).
-    wget -rH -np -w10 --random-wait "$1"
+    wget -rHpk -np -w3 --random-wait "$1"
   fi
   if [ "$#" -eq 2 ]; then
     # Filter by filetype
-    wget -rH -np -w10 --random-wait -A"$2" "$1"
+    wget -rH -np -w3 --random-wait -A"$2" "$1"
   fi
   if [ "$#" -eq 3 ]; then
     # Filter by filetype and domain. Example:
     # example.com has a list of links to downloads from amazonaws.com among
     # others. To filter only the amazonaws.com files, use that domain.
-    wget -rH -np -w10 --random-wait -D"$3" -A"$2" "$1"
+    wget -rH -np -w3 --random-wait -D"$3" -A"$2" "$1"
   fi
 }
 
@@ -49,5 +49,6 @@ function archive-website() {
   fi
 
   # Download everything recursively from the domain, only matching that domain.
-  wget -rH -np -nc -w10 --random-wait -D"$1" "$1"
+  DOMAIN="$1"
+  wget -rHpkE -np -w3 --random-wait -D"${DOMAIN}" "${DOMAIN}"
 }
