@@ -128,6 +128,7 @@ if [ $(uname -s) = $UNAME_LINUX ]; then
   alias ls='ls --color=always'
   alias ll='ls -alh --color=always'
   alias lt='ls --full-time'
+  alias diff='git diff'
   alias grep='grep --color'
   alias less='less -R'
 
