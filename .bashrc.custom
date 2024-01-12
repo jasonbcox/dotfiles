@@ -143,6 +143,7 @@ if [ $(uname -s) = $UNAME_LINUX ]; then
 
   source ~/scripts/backup-helpers.sh
   source ~/scripts/debug-helpers.sh
+  source ~/scripts/encoding-helpers.sh
   source ~/scripts/hash-helpers.sh
   source ~/scripts/pdf-helpers.sh
 
