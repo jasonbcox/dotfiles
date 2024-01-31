@@ -18,6 +18,7 @@ INSTALL_C=""
 INSTALL_DEBUG=""
 INSTALL_NODE=""
 INSTALL_PYTHON=""
+INSTALL_SERVER=""
 
 while [[ $# -gt 0 ]]; do
 case $1 in
@@ -39,6 +40,10 @@ case $1 in
     ;;
   -p|--python)
     INSTALL_PYTHON=true
+    shift  # shift past argument
+    ;;
+  -s|--server)
+    INSTALL_SERVER=true
     shift  # shift past argument
     ;;
   *)
@@ -66,9 +71,10 @@ BASE_PACKAGES=(
   curl
   git
   gpgconf
+  mosh
+  neovim
   software-properties-common
   tmux
-  neovim
 )
 sudo apt -y install $(join_by ' ' "${BASE_PACKAGES[@]}")
 
@@ -128,5 +134,12 @@ PYTHON_PACKAGES=(
   python3-venv
 )
 if [ "${INSTALL_PYTHON}" == "true" ]; then
+  sudo apt -y install $(join_by ' ' "${PYTHON_PACKAGES[@]}")
+fi
+
+SERVER_PACKAGES=(
+  ufw
+)
+if [ "${INSTALL_SERVER}" == "true" ]; then
   sudo apt -y install $(join_by ' ' "${PYTHON_PACKAGES[@]}")
 fi
