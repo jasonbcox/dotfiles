@@ -68,7 +68,7 @@ BASE_PACKAGES=(
   gpgconf
   software-properties-common
   tmux
-  nvim
+  neovim
 )
 sudo apt -y install $(join_by ' ' "${BASE_PACKAGES[@]}")
 
