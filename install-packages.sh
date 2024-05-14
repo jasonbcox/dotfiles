@@ -141,5 +141,5 @@ SERVER_PACKAGES=(
   ufw
 )
 if [ "${INSTALL_SERVER}" == "true" ]; then
-  sudo apt -y install $(join_by ' ' "${PYTHON_PACKAGES[@]}")
+  sudo apt -y install $(join_by ' ' "${SERVER_PACKAGES[@]}")
 fi
