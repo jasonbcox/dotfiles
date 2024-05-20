@@ -21,13 +21,14 @@
 *.log
 
 /.bashrc
-/.bashrc.old
+/.bashrc.old*
 /.bash_logout
 /.bash_profile
-/.bash_profile.old
+/.bash_profile.old*
 /.gituser
 /.gitignore-users
 /.profile
+/.profile.old*
 /.profile_aliases
 /.run-as-cron-env
 
