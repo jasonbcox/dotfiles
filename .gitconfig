@@ -107,6 +107,5 @@
   sa  = "!sh -c 'git stash apply stash@{$1}' -"   # Apply the diff from a given stash number
   sd  = "!sh -c 'git stash drop stash@{$1}' -"    # Drop a given stash by number
 
-  # TODO: These aliases need to be piped into `less -R` for paging. Fix this.
-  blame-color = "!~/scripts/git-blame-colorizer.sh commit"
-  blame-age = "!~/scripts/git-blame-colorizer.sh age"
+  blame-color = "!f(){ ~/scripts/git-blame-colorizer.sh commit \"$@\" | less -R ;};f"
+  blame-age = "!f(){ ~/scripts/git-blame-colorizer.sh age \"$@\" | less -R ;};f"
