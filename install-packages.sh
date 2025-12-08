@@ -69,6 +69,7 @@ BASE_PACKAGES=(
   apt-transport-https
   bash-completion
   curl
+  fonts-noto-color-emoji
   git
   gpgconf
   mosh
