@@ -7,10 +7,12 @@ cat <<EOF
 Install sets of packages. Useful for getting up and running quick.
 
 Options:
+-c, --cpp             Install basic C/C++ build tools.
 -d, --debug           Install debugging tools.
 -h, --help            Display this help message.
 -n, --node            Install basic node JS tooling.
 -p, --python          Install basic python tooling.
+-s, --server          Install basic server tooling.
 EOF
 }
 
