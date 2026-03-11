@@ -11,6 +11,10 @@ function image-metadata() {
   identify "$1"
 }
 
+function image-clear-metadata() {
+  mogrify -strip "$@"
+}
+
 function whatismyip() {
   echo "$(curl -s ifconfig.me)"
 }
