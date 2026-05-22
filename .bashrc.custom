@@ -146,6 +146,7 @@ if [ $(uname -s) = $UNAME_LINUX ]; then
   source ~/scripts/encoding-helpers.sh
   source ~/scripts/hash-helpers.sh
   source ~/scripts/pdf-helpers.sh
+  source ~/scripts/apt-helpers.sh
 
   alias run-as-cron=~/scripts/run-as-cron/run-as-cron
 
