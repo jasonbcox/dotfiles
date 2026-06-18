@@ -52,3 +52,23 @@ function archive-website() {
   DOMAIN="$1"
   wget -rHpkE -np -w3 --random-wait -D"${DOMAIN}" "${DOMAIN}"
 }
+
+function extract-from-mbox() {
+  if [ "$#" -ne 2 ]; then
+    echo "Expected arguments: <mbox> <email ID (GMail) or matching ^From address>"
+    return 1
+  fi
+  MBOX="$1"
+  FROM="$2"
+
+  awk -v from="${FROM}" '
+BEGIN { printing=0 }
+/^From / {
+  if (printing) exit;
+  if (index($2, from) > 0) {
+    printing=1;
+  }
+}
+printing { print }
+' "${MBOX}" | ripmime -i - -d .
+}
