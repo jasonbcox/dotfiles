@@ -75,6 +75,7 @@ cmd_restore() {
 
     TMPDIR=$(mktemp -d)
     tar -xzf "${FILE}" -C "${TMPDIR}"
+    CHECK_SCROLL_FILES=()
 
     SESSION=$(tmux new-session -d -P -F '#{session_name}')
     while IFS= read -r LINE; do
@@ -123,10 +124,35 @@ cmd_restore() {
 
             if [ -f "${SCROLL_FILE}" ]; then
                 # There doesn't appear to be a way to actually restore scrollback history, so this is the next best method
-                tmux send-keys -t "${PANE_TARGET}" "cat -- '${SCROLL_FILE}'" C-m
+                SCROLL_DONE_FILE="${SCROLL_FILE}.done"
+                tmux send-keys -t "${PANE_TARGET}" \
+                    "cat -- '${SCROLL_FILE}' && mv -- '${SCROLL_FILE}' '${SCROLL_DONE_FILE}'" C-m
+                CHECK_SCROLL_FILES+=("${SCROLL_DONE_FILE}")
             fi
         done <<< "$(cat "${PANE_FILE}" 2>/dev/null || echo '')"
     done <<< "$(cat "${TMPDIR}/windows.txt" 2>/dev/null || echo '')"
+
+    SCROLL_TIMEOUT=$((SECONDS + 10))
+    while :; do
+        PENDING_SCROLL_COUNT=0
+        for SCROLL_DONE_FILE in "${CHECK_SCROLL_FILES[@]}"; do
+            if [ ! -f "${SCROLL_DONE_FILE}" ]; then
+                PENDING_SCROLL_COUNT=$((PENDING_SCROLL_COUNT + 1))
+            fi
+        done
+
+        if [ "${PENDING_SCROLL_COUNT}" -eq 0 ]; then
+            break
+        fi
+
+        if [ "${SECONDS}" -gt "${SCROLL_TIMEOUT}" ]; then
+            echo "Warning: Timed out waiting for ${PENDING_SCROLL_COUNT} pane scrollback file(s)." >&2
+            echo "         Some pane scrollback history will be missing."
+            break
+        fi
+
+        sleep 0.1
+    done
 
     # Clean up
     rm -rf "${TMPDIR}"
