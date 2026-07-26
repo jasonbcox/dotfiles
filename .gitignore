@@ -33,6 +33,7 @@
 /.run-as-cron-env
 
 /launch-tmux.sh
+.tmuxrestore.tar.gz
 
 /.arcrc
 /.babel.json
