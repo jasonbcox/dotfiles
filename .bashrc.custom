@@ -202,7 +202,7 @@ if uname -a | grep $UNAME_WSL; then
 fi
 
 # Simple symmetric encryption aliases
-alias encrypt='gpg -ac'
+alias encrypt='gpg --armor --symmetric'
 alias decrypt='gpg --decrypt'
 
 # Enable programmable completion features
