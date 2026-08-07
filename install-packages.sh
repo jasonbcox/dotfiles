@@ -104,6 +104,8 @@ DEBUG_PACKAGES=(
   iputils-ping
   # JSON formatter
   jq
+  # For exiftool
+  libimage-exiftool-perl
   # For netstat
   net-tools
 )
