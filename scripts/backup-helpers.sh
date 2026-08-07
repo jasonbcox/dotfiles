@@ -10,6 +10,26 @@ function backup-home() {
   rsync --dry-run -F -v -a ~ "$1"
 }
 
+function sort-images-and-video() {
+  # Find all media with multiple date metadata (usually iPhone images). Conservatively move the ones where all of them match.
+  find . -maxdepth 1 -type f -print0 | while IFS= read -r -d '' FILE; do
+    YEAR=$(exiftool -d "%Y" -p '${DateTimeOriginal},${CreateDate},${ModifyDate}' "$FILE" | grep -E '^([0-9]{4}),\1,\1' | cut -d, -f1)
+    if [ -n "$YEAR" ]; then
+      mkdir -p "$YEAR"
+      mv "$FILE" "$YEAR"/
+    fi
+  done
+
+  # Use the less conservative CreationDate for .mov files
+  find . -maxdepth 1 -type f -name '*.mov' -print0 | while IFS= read -r -d '' FILE; do
+    YEAR=$(exiftool -d "%Y" -p '${CreationDate}' "$FILE")
+    if [ -n "$YEAR" ]; then
+      mkdir -p "$YEAR"
+      mv "$FILE" "$YEAR"/
+    fi
+  done
+}
+
 function archive-web-filetype() {
   ARGS="<url> [filetype] [domain]"
   if [ "$#" -lt 1 ]; then
