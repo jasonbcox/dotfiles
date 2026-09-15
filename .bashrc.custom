@@ -37,7 +37,12 @@ if [[ $- == *i* ]]; then
   t_reset=$(tput sgr0)
   t_underline=$(tput sgr 0 1)
 
-  export PS1="\[$t_bold\]\[$t_yellow\]\u@\h\[$t_red\]\w\\[$t_green\]\$(parse_git_branch)\[$t_red\]$ \[$t_reset\]"
+  if [ -n "$ZSH_VERSION" ]; then
+    setopt PROMPT_SUBST
+    export PS1="%{$t_bold%}%{$t_yellow%}%n@%m%{$t_red%}%~%{$t_green%}\$(parse_git_branch)%{$t_red%}$ %{$t_reset%}"
+  else
+    export PS1="\[$t_bold\]\[$t_yellow\]\u@\h\[$t_red\]\w\\[$t_green\]\$(parse_git_branch)\[$t_red\]$ \[$t_reset\]"
+  fi
 fi
 
 # Linux-specific configs
