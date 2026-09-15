@@ -155,6 +155,15 @@ if [ $(uname -s) = $UNAME_LINUX ]; then
 
   alias run-as-cron=~/scripts/run-as-cron/run-as-cron
 
+  # Enable programmable completion features
+  if ! shopt -oq posix; then
+    if [ -f /usr/share/bash-completion/bash_completion ]; then
+      . /usr/share/bash-completion/bash_completion
+    elif [ -f /etc/bash_completion ]; then
+      . /etc/bash_completion
+    fi
+  fi
+
   # Prevent suspending the terminal
   stty ixany
   stty ixoff -ixon
@@ -197,6 +206,10 @@ if [ $(uname -s) = $UNAME_MAC ]; then
   export CLICOLOR=1
   export LSCOLORS=ExFxCxDxBxegedabagacad
   alias ls='ls -G'
+
+  if [ -n "$ZSH_VERSION" ]; then
+    autoload -Uz compinit && compinit
+  fi
 fi
 
 # Windows Subsystem for Linux specific configs
@@ -209,15 +222,6 @@ fi
 # Simple symmetric encryption aliases
 alias encrypt='gpg --armor --symmetric'
 alias decrypt='gpg --decrypt'
-
-# Enable programmable completion features
-if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
-fi
 
 # Disable killing the shell with CTRL-D
 IGNOREEOF=5
