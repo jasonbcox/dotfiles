@@ -206,6 +206,7 @@ if [ $(uname -s) = $UNAME_MAC ]; then
   export CLICOLOR=1
   export LSCOLORS=ExFxCxDxBxegedabagacad
   alias ls='ls -G'
+  alias ll='ls -alhG'
 
   if [ -n "$ZSH_VERSION" ]; then
     autoload -Uz compinit && compinit
