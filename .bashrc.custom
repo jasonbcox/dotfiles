@@ -3,7 +3,13 @@ readonly UNAME_LINUX="Linux"
 readonly UNAME_MAC="Darwin"
 readonly UNAME_WSL="Microsoft"
 
-export VISUAL=vim
+# Prefer neovim when it is installed; fall back to vim elsewhere
+if command -v nvim >/dev/null 2>&1; then
+  alias vim='nvim'
+  export VISUAL=nvim
+else
+  export VISUAL=vim
+fi
 export EDITOR="$VISUAL"
 
 function parse_git_branch() {
