@@ -18,12 +18,17 @@
 !/scripts/
 !/scripts/**
 
+*[Mm][Ee][Rr][Cc][Oo][Rr]*
+
 *.log
+*.swp
+.DS_Store
 
 /.bashrc
 /.bashrc.old*
 /.bash_logout
 /.bash_profile
+/.zprofile
 /.bash_profile.old*
 /.gituser
 /.gitignore-users
@@ -38,16 +43,21 @@
 /.arcrc
 /.babel.json
 /.bash_history
+/.zsh_history
+/.CFUserTextEncoding
+/.claude.json
 /.dmrc
 /.dput.cf
 /.emulator_console_auth_token
 /.ICEauthority
 /.lesshst
 /.mkshrc
+/.npmrc
 /.nvidia-settings-rc
 /.python_history
 /.sudo_as_admin_successful
 /.wget-hsts
+/.zcompdump*
 /.xsession-errors*
 /.Xauthority
 /.yarnrc
