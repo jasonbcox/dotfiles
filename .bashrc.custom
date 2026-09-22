@@ -139,9 +139,6 @@ if [ $(uname -s) = $UNAME_LINUX ]; then
   alias ls='ls --color=always'
   alias ll='ls -alh --color=always'
   alias lt='ls --full-time'
-  alias diff='git diff --no-index --'
-  alias grep='grep --color'
-  alias less='less -R'
 
   # Resets all directories and files to default permissions recursively
   alias resetperms='find . -type d -exec chmod 775 {} \; && find . -type f -exec chmod 644 {} \;'
@@ -213,11 +210,16 @@ if [ $(uname -s) = $UNAME_MAC ]; then
   export LSCOLORS=ExFxCxDxBxegedabagacad
   alias ls='ls -G'
   alias ll='ls -alhG'
+  alias lt='ls -lT'
 
   if [ -n "$ZSH_VERSION" ]; then
     autoload -Uz compinit && compinit
   fi
 fi
+
+alias diff='git diff --no-index --'
+alias grep='grep --color'
+alias less='less -R'
 
 # Windows Subsystem for Linux specific configs
 if uname -a | grep $UNAME_WSL; then
