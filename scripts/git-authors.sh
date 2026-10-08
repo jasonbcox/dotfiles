@@ -4,17 +4,21 @@
 #   264  +155412/-68567 Δ +86845  Some Author <some@example.com>
 #
 # Accepts anything `git log` does: --since, ranges, --author, paths.
+# --delta sorts by lines delta instead of commit count.
 # Authors listed in ~/.gitignore-users are filteRED out.
 
-# If output is going to a terminal
-if [ -t 1 ]; then
-  GREEN=$(printf '\033[32m')
-  RED=$(printf '\033[31m')
-  RESET=$(printf '\033[0m')
-fi
+GREEN=$(printf '\033[32m')
+RED=$(printf '\033[31m')
+RESET=$(printf '\033[0m')
+
+SORT_BY=commits
+for ARG; do
+  shift
+  if [ "${ARG}" = --delta ]; then SORT_BY=delta; else set -- "$@" "${ARG}"; fi
+done
 
 git log --format='@%aN <%aE>' --numstat "$@" |
-awk -F'\t' -v GREEN="$GREEN" -v RED="$RED" -v RESET="$RESET" '
+awk -F'\t' -v GREEN="${GREEN}" -v RED="${RED}" -v RESET="${RESET}" -v SORT_BY="${SORT_BY}" '
   /^@/ {
     author = substr($0, 2)
     commits[author]++
@@ -34,7 +38,10 @@ awk -F'\t' -v GREEN="$GREEN" -v RED="$RED" -v RESET="$RESET" '
     for (author in commits) {
       padding = sprintf("%*s", width - length(lines[author]), "")
       delta_color = delta[author] > 0 ? GREEN : delta[author] < 0 ? RED : ""
-      printf "%6d\t%s+%d%s/%s-%d%s Δ %s%+d%s%s\t%s\n",
+      # Leading sort key, stripped by cut after sorting.
+      sort_key = SORT_BY == "delta" ? -delta[author] : commits[author]
+      printf "%d\t%6d\t%s+%d%s/%s-%d%s Δ %s%+d%s%s\t%s\n",
+        sort_key,
         commits[author],
         GREEN, added[author], RESET,
         RED, removed[author], RESET,
@@ -44,4 +51,5 @@ awk -F'\t' -v GREEN="$GREEN" -v RED="$RED" -v RESET="$RESET" '
   }
 ' |
 grep -vf ~/.gitignore-users |
-sort -rn
+sort -rn |
+cut -f2-
