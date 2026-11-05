@@ -77,7 +77,7 @@ cmd_restore() {
     tar -xzf "${FILE}" -C "${TMPDIR}"
     CHECK_SCROLL_FILES=()
 
-    SESSION=$(tmux new-session -d -P -F '#{session_name}')
+    SESSION=$(tmux new-session -d -x 1000 -y 1000 -P -F '#{session_name}')
     while IFS= read -r LINE; do
         WINDOW_INDEX=$(echo "${LINE}" | cut -d: -f1)
         WINDOW_NAME=$(echo "${LINE}" | cut -d: -f2)
