@@ -84,7 +84,7 @@ cmd_restore() {
         WINDOW_LAYOUT=$(echo "${LINE}" | cut -d: -f3-)
 
         if [ "${WINDOW_INDEX}" != "0" ]; then
-            tmux new-window -t "${SESSION}:" -n "${WINDOW_NAME}" 2>/dev/null || true
+            tmux new-window -t "${SESSION}:${WINDOW_INDEX}" -n "${WINDOW_NAME}" 2>/dev/null || true
         else
             # Rename first window because it already exists
             tmux rename-window -t "${SESSION}:0" "${WINDOW_NAME}" 2>/dev/null || true
