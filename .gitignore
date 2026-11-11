@@ -52,6 +52,8 @@
 /.ICEauthority
 /.lesshst
 /.mkshrc
+/.modal*
+/.netrc
 /.npmrc
 /.nvidia-settings-rc
 /.python_history
